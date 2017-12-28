@@ -40,6 +40,7 @@ public class RepairService {
 		createRepairRequestServiceImpl.setTentative_quoted_costInfo(repairRequest.getString("tentative_quoted_cost"));
 		createRepairRequestServiceImpl.setTentative_service_completion_dateInfo(repairRequest.getString("service_order_date"));
 		createRepairRequestServiceImpl.setService_order_dateInfo(repairRequest.getString("service_order_date"));
+		createRepairRequestServiceImpl.setServiceEstimation(repairRequest.getJSONObject("estimation"));
 		
 		createRepairRequestServiceImpl.setProductInfo(repairRequest.getJSONArray("productInfo"));
 		
@@ -97,6 +98,7 @@ public class RepairService {
 		getRepairRequestStatusImpl.setFinalPayment(finalTransaction.getJSONObject("paymentInfo"));
 		getRepairRequestStatusImpl.setServiceNumber(finalTransaction.getString("serviceNumber"));
 		getRepairRequestStatusImpl.setOutwardCourierInfo(finalTransaction.getJSONObject("courierOutwardInfo"));
+		getRepairRequestStatusImpl.setFinalDeliveryDate(finalTransaction.getString("finalDeliveryDate"));
 		getRepairRequestStatusImpl.executeFinalPayment();
 		return getRepairRequestStatusImpl.getInvoiceResult();
 	}

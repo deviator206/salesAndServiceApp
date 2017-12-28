@@ -205,6 +205,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			
 			repairServiceResponse.setServiceStatus(rs.getString(15));
 			repairServiceResponse.setServiceDate(rs.getString(17));
+			repairServiceResponse.setDeliveredToCustomerDate(rs.getString(18));
 			repairServiceResponse.setServiceNumber(rs.getString(22));
 			repairServiceResponse.setVatTinNumber(rs.getString(23));
 			repairServiceResponse.setAdvancePayment(rs.getString(27));

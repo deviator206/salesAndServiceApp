@@ -7,6 +7,10 @@ angular.module('salesApp.services.Util', ['ui.bootstrap'])
       var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
       var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
       var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+      if (hour === '00' && minute === '00' && second === '00') {
+    	  return year + "-" + month + "-" + day;
+      }
+      
       return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
   };
   

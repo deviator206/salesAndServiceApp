@@ -51,6 +51,7 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 	private String outwardCPhn="";
 	private String outwardCDocNo="";
 	private int outwardCBoolean= 0 ;
+	private String finalDeliveryDate;
 
 
 	public CustomerServiceResponse returnValidCustomerInfo(int customerId) throws SQLException{
@@ -159,7 +160,7 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 	public void executeFinalPayment() throws SQLException, JSONException {
 		this.getConnection();
 		Statement stmt1;
-		String sql ="update SERVICE_INFO_TABLE SET finalPayment = ?, serviceStatus = ? , isOutwardCourier =?, outwardCourierDocumentNo = ?,  outwardCourierName = ?, outwardCourierPhone = ?  where service_order_number = '"+this.finalServiceNumber+"' ";
+		String sql ="update SERVICE_INFO_TABLE SET finalPayment = ?, serviceStatus = ? , isOutwardCourier =?, outwardCourierDocumentNo = ?,  outwardCourierName = ?, outwardCourierPhone = ? , service_completion_date = ? where service_order_number = '"+this.finalServiceNumber+"' ";
 		PreparedStatement ps = this.dbConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 		ps.setString(1, this.finalPaymentInfo.getJSONObject(this.finalPaymentInfo.getString("paymentType")).getString("amount"));
 		ps.setString(2, "DTC");
@@ -167,6 +168,7 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 		ps.setString(4, outwardCDocNo);
 		ps.setString(5, outwardCName);
 		ps.setString(6,outwardCPhn);
+		ps.setString(7,finalDeliveryDate);
 		int count  = ps.executeUpdate();
 		finalPaymentDone = new RepairServiceResponse();
 		if (count > 0) {
@@ -214,6 +216,12 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 		
 	}
 
+	public void setFinalDeliveryDate(String finalDate) {
+		// TODO Auto-generated method stub
+		this.finalDeliveryDate = finalDate;
+	}
+
+	
 	
 
 }

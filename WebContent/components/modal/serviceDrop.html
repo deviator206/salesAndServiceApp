@@ -23,7 +23,7 @@
                     <td><span class="pull-left">:</span>&nbsp; <span>{{serviceRequest.customerInfo.phone}}</span></td>
                 </tr>
                 <tr>
-                    <td><span class="pull-left">Address</span> <span class="pull-right">:</span></td>
+                    <td><span class="pull-left">Address:</span> <span class="pull-right">:</span></td>
                     <td colspan="2">&nbsp; {{serviceRequest.customerInfo.address}}</td>
                     <!-- <td><span class="pull-right">VAT Tin No</span></td>
                     <td><span class="pull-left">:</span>&nbsp; <span>{{serviceResponse.vatTinNumber}}</span></td> -->
@@ -32,6 +32,7 @@
         </div>
     </div>     
 
+	    
     <div class="row">
     	<div class="col-md-12">
            <table st-table="serviceRequest" class="table table-bordered">
@@ -58,9 +59,9 @@
 
     <table class="table table-condensed table-bordered invoice-margin">
         <tr>
-            <th style="width:33%">Accessries Details</th>
-            <th style="width:33%">Compalints Found</th>
-            <th style="width:33%">Advance Payment</th>
+            <th style="width:50%">Accessries Details</th>
+            <th style="width:50%">Compalints Found</th>
+            
         </tr>
         <tr>
             <td>
@@ -79,23 +80,25 @@
                   {{serviceRequest.problemLists.join(', ')}}
                 </div>     
             </td>
-            <td>
-                <div ng-include="'components/template/paymentModeDisplay.html'"></div>
-            </td>
+            
         </tr>
     </table>
     
-    
+     <div class="row">
+        <div class="col-xs-12">
+        	<div ng-include="'components/template/paymentModeDisplay_new.html'"></div>
+        </div>
+      </div>
     <div class="row">
         <div class="col-xs-12">
             <table class="table table-bordered table-condensed invoice-margin">
-                <tr>
+                <tr ng-if='serviceRequest.commentsInfo.customer || serviceRequest.customerComment' >
                     <th style="width:15%">Nature of Complaints</th>
                     
                     <td ng-if='serviceRequest.commentsInfo.customer'><div ng-bind="serviceRequest.commentsInfo.customer"></div></td>
                     <td ng-if='serviceRequest.customerComment'><div ng-bind="serviceRequest.customerComment"></div></td>
                 </tr>
-                <tr>
+                <tr ng-if='serviceRequest.commentsInfo.customer || serviceRequest.shopUserComment' >
                     <th>Remark</th>
                     <td ng-if='serviceRequest.commentsInfo.customer'><div ng-bind="serviceRequest.commentsInfo.shopkeeper"></div></td>
                     <td ng-if='serviceRequest.shopUserComment'><div ng-bind="serviceRequest.shopUserComment"></div></td>
@@ -104,6 +107,29 @@
             </table>
        </div>
     </div>
+    
+    	 <div class="row">
+	    	<div class="col-md-12">
+	    	   <table st-table="serviceRequest" class="table table-bordered">
+	            <tbody>
+	            <tr >
+	                <td ng-if='serviceRequest.estimation && serviceRequest.estimation.cost' ><span class="pull-left">Estimated Cost:</span> <span class="pull-right">:</span></td>
+                    <td ng-if='serviceRequest.estimation && serviceRequest.estimation.cost'>&nbsp; {{serviceRequest.estimation.cost}}</td>
+                    <td ng-if='serviceRequest.estimation && serviceRequest.estimation.date'  ><span class="pull-right">Estimated Delivery Time</span></td>
+                    <td ng-if='serviceRequest.estimation && serviceRequest.estimation.date' ><span class="pull-left">:</span>&nbsp; <span>{{serviceRequest.estimation.date}}</span></td>
+	            </tr>
+	            </tbody>
+	        </table>
+	    	</div>
+	</div>
+	
+	<div class="row" ng-if='receiptType === "RECEIPT"'>
+			<table class="table table-bordered table-condensed invoice-margin">
+				<tr>
+				    <td class="col-xs-6"><strong >Delivery Date</strong>: {{ serviceRequest.finalDeliveryDate }}</td>
+				</tr>
+			</table>
+	</div>
     
     <div class="row" ng-if='receiptType === "ESTIMATE"'>
         <div class="col-md-12" style="font-size:10px">

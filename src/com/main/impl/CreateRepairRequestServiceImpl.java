@@ -54,6 +54,9 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 	public String service_order_date = "service_order_date";
 	public String service_completion_date = "service_completion_date";
 	public String service_order_number = "service_order_number";
+	
+	public String estimated_delivery_cost = "estimated_delivery_cost";
+	public String estimated_delivery_date = "estimated_delivery_date";
 
 	public String actual_service_cost = "actual_service_cost";
 	public String tentative_quoted_cost = "tentative_quoted_cost";
@@ -101,6 +104,7 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 	}
 	public String tentative_service_completion_dateInfo;
 	public String service_order_dateInfo;
+	private JSONObject estimatedObject;
 
 	public void setTentative_quoted_costInfo(String tentative_quoted_costInfo) {
 		this.tentative_quoted_costInfo = tentative_quoted_costInfo;
@@ -134,7 +138,7 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 		generateInvoiceOnlyImpl.SALES_INVOICE_TABLE = "REPAIR_INVOICE_TABLE";
 		HashMap<String, String> invoiceInformation = generateInvoiceOnlyImpl.getNewInvoice();
 
-		String sql = "insert into " + this.SERVICE_INFO_TABLE + " (" + this.customerId + ", " + this.productName + ", "	+ this.productModel + "," + this.productSN + "," + this.accessoryList + "," + this.problemList + ","+ this.shopUserComment + "," + this.customerComment + "," + this.serviceStatus + ","+ this.tentative_quoted_cost + "," + this.tentative_service_completion_date + ","+ this.service_order_date + ","+ this.service_order_number + "," + this.vatTinNumber + ","	+ this.isCourier + "," + this.courierName + "," + this.courierPhone + "," + this.courierDocumentNo + ","+ this.userId + "," + this.advancedPayment +") "+"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into " + this.SERVICE_INFO_TABLE + " (" + this.customerId + ", " + this.productName + ", "	+ this.productModel + "," + this.productSN + "," + this.accessoryList + "," + this.problemList + ","+ this.shopUserComment + "," + this.customerComment + "," + this.serviceStatus + ","+ this.tentative_quoted_cost + "," + this.tentative_service_completion_date + ","+ this.service_order_date + ","+ this.service_order_number + "," + this.vatTinNumber + ","	+ this.isCourier + "," + this.courierName + "," + this.courierPhone + "," + this.courierDocumentNo + ","+ this.userId + "," + this.advancedPayment + "," + this.estimated_delivery_cost+ "," + this.estimated_delivery_date+") "+"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
 		PreparedStatement ps = this.dbConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 		//this.dbConnection.setAutoCommit(false);
 		int count = 0;
@@ -160,6 +164,18 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 			ps.setString(18, this.courierInfo.getString("courierDocumentNo"));
 			ps.setString(19, this.userInfo.getString("id"));
 			ps.setString(20, this.paymentInfo.getJSONObject(this.paymentInfo.getString("paymentType")).getString("amount"));
+			if (this.estimatedObject.has("cost")) {
+				ps.setString(21, this.estimatedObject.getString("cost"));
+			} else {
+				ps.setString(21, "NA");
+			}
+			
+			if (this.estimatedObject.has("date")) {
+				ps.setString(22, this.estimatedObject.getString("date"));
+			}else {
+				ps.setString(22, "NA");
+			}
+						
 			count  = ps.executeUpdate();
  			break;
 		}
@@ -226,5 +242,11 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 
 	public RepairServiceResponse getResponse() {
 		return this.repairServiceResponse;
+	}
+
+	public void setServiceEstimation(JSONObject jsonObject) {
+		// TODO Auto-generated method stub
+		this.estimatedObject = jsonObject;
+		
 	}
 }

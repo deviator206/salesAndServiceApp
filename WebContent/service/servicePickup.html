@@ -31,6 +31,28 @@
     </div>
     </div>
 </fieldset>
+<fieldset class="customer-section" ng-if="pageMode == 'SERVICE_PICKUP' ">
+ <legend class="customer-section">Delivery Date</legend>
+    <div class="row">
+    <div class="col-sm-6">
+                            	      
+                            
+    	<input
+		                            class="form-control"
+		                            autocomplete="off"
+		                            type="date"
+		                            id="delivert-estimated-date"
+		                            name="serviceDate"
+		                            ng-model="serviceFinalDeliveryDate"
+		                            popup="d MMM yyyy"
+		                            options="dateOptions"
+		                            opened="opened"
+		                            my-datepicker/>  
+        </div>
+    </div>
+    
+</fieldset>
+
 
 <fieldset class="product-list-section" ng-if="serviceRequest.productInfo.length > 0 ">
  <legend class="product-list-section">Product List</legend>

@@ -140,10 +140,25 @@ public class RepairRequestResponse extends MainResponse {
 		this.outwardCourierInfo = outwardCourierInfo;
 	}
 
+	/**
+	 * @return the deliveredToCustomerDate
+	 */
+	public String getDeliveredToCustomerDate() {
+		return deliveredToCustomerDate;
+	}
+
+	/**
+	 * @param deliveredToCustomerDate the deliveredToCustomerDate to set
+	 */
+	public void setDeliveredToCustomerDate(String deliveredToCustomerDate) {
+		this.deliveredToCustomerDate = deliveredToCustomerDate;
+	}
+
 	private String problemList;
 	private String serviceNumber;
 	private String serviceStatus;
 	private String serviceDate;
+	private String deliveredToCustomerDate;
 	private String totalIncome;
 	
 	private CommentsInfoModel commentsInfo;

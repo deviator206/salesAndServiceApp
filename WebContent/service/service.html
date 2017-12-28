@@ -327,7 +327,48 @@
             </div>
         </div>      
       </div>    
-      <div class="form-group col-sm-8">
+        <div class="form-group col-sm-4">
+        <div class="panel panel-default height width-97">
+            <div class="panel-heading">Tentative Estimate</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="cust-name">Estimated Cost:</label>
+                        <div class="col-sm-8">
+                            <div class="col-sm-10">
+                                <input autocomplete="off" ng-model="serviceEstimatedDeliveryCost" type="text" class="form-control" id="estimation-info" 
+                                placeholder="Estimated Amt.">
+                            </div>
+                                      
+                        </div>
+                         <label class="control-label col-sm-4" for="cust-name">Estimated Date:</label>
+                        <div class="col-sm-8">
+                            <div class="col-sm-10">
+                            	<input
+		                            class="form-control"
+		                            autocomplete="off"
+		                            type="date"
+		                            id="delivert-estimated-date"
+		                            name="serviceDate"
+		                            ng-model="serviceEstimatedDeliveryDate"
+		                            popup="d MMM yyyy"
+		                            options="dateOptions"
+		                            opened="opened"
+		                            my-datepicker/>        
+                            </div>
+                                      
+                        </div>
+                    </div>
+                </div>       
+                
+            </div>
+        </div>      
+     
+        </div>
+       
+    </div>
+    <div class="row">
+    	 <div class="form-group col-sm-12">
         <div class="panel panel-default height width-97">
             <div class="panel-heading">Advance Payment Info</div>
             <div class="panel-body">
@@ -353,7 +394,7 @@
              </div>    
             </div>
         </div>     
-      </div>    
+      </div>  
     </div>
   </div>  
 </fieldset>
