@@ -5,8 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -18,6 +21,7 @@ import com.main.models.PaymentInfoModel;
 import com.main.models.ProductInfoModel;
 import com.main.models.RepairRequestResponse;
 import com.main.models.RepairServiceResponse;
+import com.main.models.SalesServiceResponse;
 import com.main.models.SearchRepairServiceResponse;
 import com.main.models.UserInfo;
 
@@ -170,15 +174,57 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase {
 		ps.setString(6,outwardCPhn);
 		ps.setString(7,finalDeliveryDate);
 		int count  = ps.executeUpdate();
+		
+		HashMap<String,String> returnedHash = new HashMap<>();
+		JSONObject invoiceInformation = this.fetchInvoiceInformation();
+		returnedHash.put("invoice", invoiceInformation.getString("invoice"));
+    	returnedHash.put("vatTinNumber", invoiceInformation.getString("vatTinNumber"));
+    	
+		int paymentInserted = this.insertPaymentInfo( returnedHash);
+		
 		finalPaymentDone = new RepairServiceResponse();
 		if (count > 0) {
 			finalPaymentDone.setStatus(true);
-			JSONObject invoiceInformation = this.fetchInvoiceInformation();
+			
 			finalPaymentDone.setRepairReceiptId(invoiceInformation.getString("invoice"));
 			finalPaymentDone.setVatTinNumber(invoiceInformation.getString("vatTinNumber"));
 		}
 		this.dbConnection.close();
 	}
+	
+	private int insertPaymentInfo(HashMap<String, String> invoiceInformation) throws JSONException {
+		SalesServiceResponse salesServiceResponse = new SalesServiceResponse();
+		salesServiceResponse.setStatus(false);
+		PaymentDetailsImpl paymentDetailsImpl = new PaymentDetailsImpl();
+		paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
+		JSONArray paymentDetailsImplInput = new JSONArray();
+		JSONObject newPaymentInfoInput = new JSONObject();
+		String paymentType = this.finalPaymentInfo.getString("paymentType");
+		JSONObject singlePaymentInfo = this.finalPaymentInfo.getJSONObject(paymentType);
+		
+	    Iterator paymentKeys = singlePaymentInfo.keys();
+	    while(paymentKeys.hasNext()) {
+	    	String key = (String)paymentKeys.next();
+	        // loop to get the dynamic key
+	        Object value = (Object)singlePaymentInfo.get(key);
+	        if(value instanceof Integer) {
+	        	newPaymentInfoInput.put(key,(int)value);
+	        } else if(value instanceof String) {
+	        	newPaymentInfoInput.put(key,(String)value);
+	        } 
+	        
+	    }
+	    newPaymentInfoInput.put("type", paymentType);
+	    if(this.finalPaymentInfo.has("additional_cash")){
+	    	newPaymentInfoInput.put("additional_cash", this.finalPaymentInfo.getInt("additional_cash"));
+	    }
+	    
+	    paymentDetailsImplInput.put(newPaymentInfoInput);
+		paymentDetailsImpl.setPaymentInfo(paymentDetailsImplInput);
+		salesServiceResponse = paymentDetailsImpl.updateFinalPaymentDetails();
+		return (salesServiceResponse.getStatus() ? 1 : 0);
+	}
+	
 
 	private JSONObject fetchInvoiceInformation() throws SQLException, JSONException {
 		Statement stmt;

@@ -13,6 +13,8 @@ import com.main.models.CommentsInfoModel;
 import com.main.models.CourierInfoModel;
 import com.main.models.CustomerServiceResponse;
 import com.main.models.PaymentInfoModel;
+import com.main.models.PaymentSingleFinalModel;
+import com.main.models.PaymentSingleModel;
 import com.main.models.ProductInfoListModel;
 import com.main.models.ProductInfoModel;
 import com.main.models.RepairRequestResponse;
@@ -29,6 +31,8 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 	public List<RepairRequestResponse> responseSearchResult;
 	private String serviceOrderStatusInput="";
 	private int totalIncome = 0;
+	private int onlyAdvanceIncome= 0;
+	private boolean serviceMode = false;
 
 	public GetRepairRequestStatusImpl() {
 		this.queryOnColumn = "";
@@ -78,16 +82,11 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 
 	}
 
-	
-	public void triggerSearch(CustomerServiceResponse customerInfo, int customerId) throws SQLException{
-		// System.out.println(" Looping for Tigger Search............");
-		Statement stmt;
-		stmt = this.dbConnection.createStatement();
+	private String createQuery(CustomerServiceResponse customerInfo, int customerId){
 		String query = "";
-		
 		if (this.queryByType != null && this.queryByType.equalsIgnoreCase("BY_QUERY")) {
 			
-		
+			
 			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
 				query = "select * from " + this.SERVICE_INFO_TABLE +" ORDER BY id DESC";
 				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
@@ -133,6 +132,21 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			}
 			
 		}
+		return query;
+	}
+	
+	public void triggerSearch(CustomerServiceResponse customerInfo, int customerId) throws SQLException{
+		// System.out.println(" Looping for Tigger Search............");
+		Statement stmt;
+		stmt = this.dbConnection.createStatement();
+		
+		String query = "";
+		if(this.serviceMode) {
+			query = this.createQueryForReport(customerInfo, customerId);
+		} else {
+			query = this.createQuery(customerInfo, customerId);
+		}
+		
 		
 		ResultSet rs = stmt.executeQuery(query);
 		while (rs.next()) {
@@ -198,9 +212,6 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 				commentInfo.setTh_comment(rs.getString(36) + " : "+rs.getString(31));
 			}
 			
-			
-			
-			
 			repairServiceResponse.setCommentsInfo(commentInfo);
 			
 			repairServiceResponse.setServiceStatus(rs.getString(15));
@@ -215,16 +226,115 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			if (rs.getString(28) != null){
 				totalIncome = totalIncome + rs.getInt(28); 
 				paymentInfoModel.setFinalAmount(rs.getString(28));
+				 
+			} else if(rs.getString(27) != null ) {
+				onlyAdvanceIncome = onlyAdvanceIncome +Integer.parseInt(rs.getString(27));
 			}
+				
+			PaymentSingleModel paymentSingleModel = new PaymentSingleModel();
+			PaymentSingleFinalModel paymentSingleFinalModel = new PaymentSingleFinalModel();
+			if(this.serviceMode) {
+				paymentSingleModel.setCash(rs.getString(48));
+				paymentSingleModel.setCheqNo(rs.getString(49));
+				paymentSingleModel.setBankName(rs.getString(50));
+				paymentSingleModel.setIfscCode(rs.getString(51));
+				paymentSingleModel.setCheqDate(rs.getString(52));
+				paymentSingleModel.setAccountNo(rs.getString(53));
+				paymentSingleModel.setCardNo(rs.getString(54));
+				paymentSingleModel.setInvoice_id(rs.getString(55));
+				paymentSingleModel.setInvoice_tin(rs.getString(56));
+				paymentSingleModel.setAmount(rs.getString(57));
+				paymentSingleModel.setOnlinePaymentMode(rs.getString(58));
+				paymentSingleModel.setOnlineRemark(rs.getString(59));
+				paymentSingleModel.setCardExpiryDate(rs.getString(60));
+				paymentSingleModel.setCardNetwork(rs.getString(61));
+				paymentSingleModel.setCardBank(rs.getString(62));	
+				
+				paymentSingleFinalModel.setFinal_cash(rs.getString(63));
+				paymentSingleFinalModel.setFinal_cheqNo(rs.getString(64));
+				paymentSingleFinalModel.setFinal_cheqDate(rs.getString(65));
+				paymentSingleFinalModel.setFinal_bankName(rs.getString(66));
+				paymentSingleFinalModel.setFinal_cardNo(rs.getString(67));
+				paymentSingleFinalModel.setFinal_cardNetwork(rs.getString(68));
+				paymentSingleFinalModel.setFinal_onlinePaymentMode(rs.getString(69));
+				paymentSingleFinalModel.setFinal_onlineTransactionId(rs.getString(70));
+				paymentSingleFinalModel.setFinal_onlineRemark(rs.getString(71));
+				paymentSingleFinalModel.setFinal_amount(rs.getString(72));
+				
+			}
+			
+			repairServiceResponse.setPaymentSingleModel(paymentSingleModel);
+			repairServiceResponse.setPaymentSingleFinalModel(paymentSingleFinalModel);
 			
 			repairServiceResponse.setPaymentInfo(paymentInfoModel);
 			responseSearchResult.add(repairServiceResponse);
 			mainResponse.setStatus(true);
-			// System.out.println(" RECORDS ###################"+rs.getString(22));
+
 		}
 		
 	}
 	
+	private String getBasicJoinQuery(){
+		return " LEFT JOIN PAYMENT_DETAILS_TABLE ON SERVICE_INFO_TABLE.service_order_number = PAYMENT_DETAILS_TABLE.invoice_id";
+	}
+	
+	private String getJoinBasedOrderByQuery(){
+		return " ORDER BY SERVICE_INFO_TABLE.id DESC";
+	}
+	
+	private String createQueryForReport(CustomerServiceResponse customerInfo, int customerId) {
+		String query = "";
+		if (this.queryByType != null && this.queryByType.equalsIgnoreCase("BY_QUERY")) {
+			
+			
+			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
+				query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+""+this.getJoinBasedOrderByQuery();
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+" where serviceStatus='"+serviceOrderStatusInput+""+this.getJoinBasedOrderByQuery();
+				}
+			}
+			else {
+				query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+ " where " + this.getColumnNameString(customerId)+""+this.getJoinBasedOrderByQuery();
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+ " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' "+this.getJoinBasedOrderByQuery();
+				}
+			}
+		} else if (this.queryByType != null && this.queryByType.equalsIgnoreCase("BY_DATE")){
+			query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+" where serviceStatus='"+serviceOrderStatusInput+"' AND service_order_date  BETWEEN '"+Timestamp.valueOf(this.queryStartFrom)+"' AND  '"+Timestamp.valueOf(this.queryStartTo)+"' "+this.getJoinBasedOrderByQuery();
+		}else if (this.queryByType == null) {
+			this.queryByType = "";
+			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
+				query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+""+this.getJoinBasedOrderByQuery();
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+" where serviceStatus='"+serviceOrderStatusInput+"'"+this.getJoinBasedOrderByQuery();
+				}
+			}
+			else {
+				query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+ " where " + this.getColumnNameString(customerId)+""+this.getJoinBasedOrderByQuery();
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+ " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' "+this.getJoinBasedOrderByQuery();
+				}
+			}
+			
+		}else if (this.queryByType != null) {
+			this.queryByType = "";
+			if ((this.queryText.equalsIgnoreCase("*") || this.queryText.equalsIgnoreCase("")) && customerId == 0) {
+				query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+""+this.getJoinBasedOrderByQuery();
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+" where serviceStatus='"+serviceOrderStatusInput+"'"+this.getJoinBasedOrderByQuery();
+				}
+			}
+			else {
+				query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+ " where " + this.getColumnNameString(customerId)+" "+this.getJoinBasedOrderByQuery();
+				if (serviceOrderStatusInput != null && !serviceOrderStatusInput.isEmpty()){
+					query = "select * from " + this.SERVICE_INFO_TABLE +""+this.getBasicJoinQuery()+  " where " + this.getColumnNameString(customerId)+" AND  serviceStatus='"+serviceOrderStatusInput+"' "+this.getJoinBasedOrderByQuery();
+				}
+			}
+			
+		}
+		return query;
+	}
+
 	public CustomerServiceResponse returnValidCustomerInfo(int customerId) throws SQLException{
 		CustomerServiceResponse customerInfo = new  CustomerServiceResponse();
 		Statement stmt1;
@@ -247,6 +357,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		responseSearchResult = new ArrayList<>();
 		int customerId = 0;
 		totalIncome = 0;
+		onlyAdvanceIncome = 0;
 		
 		if (queryOnColumn.equalsIgnoreCase("CUSTOMER_PHONE") || queryOnColumn.equalsIgnoreCase("CUSTOMER_NAME") && !this.queryText.equalsIgnoreCase("") ) {
 			Statement stmt1;
@@ -270,6 +381,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 		
 		mainResponse.setSearchResults(this.responseSearchResult);
 		mainResponse.setFinalIncome(totalIncome);
+		mainResponse.setOnlyAdvanceIncome(onlyAdvanceIncome);
 		this.dbConnection.close();
 		
 	}
@@ -296,6 +408,12 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 	public void setStartFrom(String startFrom) {
 		// TODO Auto-generated method stub
 		queryStartFrom = startFrom;
+	}
+
+	public void setServiceMode() {
+		// TODO Auto-generated method stub
+		this.serviceMode = true;
+		
 	}
 
 	

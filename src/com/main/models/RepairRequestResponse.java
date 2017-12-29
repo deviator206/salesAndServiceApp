@@ -7,6 +7,7 @@ public class RepairRequestResponse extends MainResponse {
 	private String accessoryList;
 	private String vatTinNumber;
 	private String advancePayment;
+	
 
 	public String getAdvancePayment() {
 		return advancePayment;
@@ -154,6 +155,35 @@ public class RepairRequestResponse extends MainResponse {
 		this.deliveredToCustomerDate = deliveredToCustomerDate;
 	}
 
+	/**
+	 * @return the paymentSingleModel
+	 */
+	public PaymentSingleModel getPaymentSingleModel() {
+		return paymentSingleModel;
+	}
+
+	/**
+	 * @param paymentSingleModel the paymentSingleModel to set
+	 */
+	public void setPaymentSingleModel(PaymentSingleModel paymentSingleModel) {
+		this.paymentSingleModel = paymentSingleModel;
+	}
+
+	/**
+	 * @return the paymentSingleFinalModel
+	 */
+	public PaymentSingleFinalModel getPaymentSingleFinalModel() {
+		return paymentSingleFinalModel;
+	}
+
+	/**
+	 * @param paymentSingleFinalModel the paymentSingleFinalModel to set
+	 */
+	public void setPaymentSingleFinalModel(PaymentSingleFinalModel paymentSingleFinalModel) {
+		this.paymentSingleFinalModel = paymentSingleFinalModel;
+	}
+
+	private PaymentSingleFinalModel paymentSingleFinalModel;
 	private String problemList;
 	private String serviceNumber;
 	private String serviceStatus;
@@ -162,6 +192,7 @@ public class RepairRequestResponse extends MainResponse {
 	private String totalIncome;
 	
 	private CommentsInfoModel commentsInfo;
+	private PaymentSingleModel paymentSingleModel;
 	private CourierInfoModel courierInfo;
 	private CourierInfoModel outwardCourierInfo;
 	private CustomerServiceResponse customerInfo;

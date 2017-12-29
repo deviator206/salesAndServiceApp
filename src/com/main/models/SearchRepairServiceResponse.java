@@ -7,6 +7,7 @@ public class SearchRepairServiceResponse extends MainResponse {
 	
 	public List<RepairRequestResponse> searchResults = new ArrayList<>();
 	private int finalIncome;
+	private int onlyAdvanceIncome;
 
 	public List<RepairRequestResponse> getSearchResults() {
 		return searchResults;
@@ -28,6 +29,12 @@ public class SearchRepairServiceResponse extends MainResponse {
 	 */
 	public void setFinalIncome(int totalIncome) {
 		this.finalIncome = totalIncome;
+	}
+
+	public void setOnlyAdvanceIncome(int onlyAdvanceIncome) {
+		this.onlyAdvanceIncome = onlyAdvanceIncome;
+		// TODO Auto-generated method stub
+		
 	}
 
 }

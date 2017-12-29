@@ -6,13 +6,16 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.main.models.RepairServiceResponse;
+import com.main.models.SalesServiceResponse;
 
 public class CreateRepairRequestServiceImpl extends ServiceBase {
 	/*
@@ -142,6 +145,7 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 		PreparedStatement ps = this.dbConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 		//this.dbConnection.setAutoCommit(false);
 		int count = 0;
+		int paymentInserted= 0;
 		for (int productLoop = 0; productLoop < this.productInfo.length(); productLoop++) {
 			JSONObject singleProduct = (JSONObject) this.productInfo.get(productLoop);
 			ps.setInt(1, customerValidID);
@@ -179,8 +183,12 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 			count  = ps.executeUpdate();
  			break;
 		}
+		
+		
+		paymentInserted = this.insertPaymentInfo( invoiceInformation);
+		
 
-		if (count > 0) {
+		if (count > 0 && paymentInserted > 0) {
 			repairServiceResponse.setStatus(true);
 			repairServiceResponse.setRepairReceiptId(invoiceInformation.get("invoice"));
 			repairServiceResponse.setVatTinNumber(invoiceInformation.get("vatTinNumber"));
@@ -188,6 +196,35 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 		
 		this.dbConnection.close();
 
+	}
+
+	private int insertPaymentInfo(HashMap<String, String> invoiceInformation) throws JSONException {
+		SalesServiceResponse salesServiceResponse = new SalesServiceResponse();
+		salesServiceResponse.setStatus(false);
+		PaymentDetailsImpl paymentDetailsImpl = new PaymentDetailsImpl();
+		paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
+		JSONArray paymentDetailsImplInput = new JSONArray();
+		JSONObject newPaymentInfoInput = new JSONObject();
+		String paymentType = this.paymentInfo.getString("paymentType");
+		JSONObject singlePaymentInfo = this.paymentInfo.getJSONObject(paymentType);
+		
+	    Iterator paymentKeys = singlePaymentInfo.keys();
+	    while(paymentKeys.hasNext()) {
+	    	String key = (String)paymentKeys.next();
+	        // loop to get the dynamic key
+	        Object value = (Object)singlePaymentInfo.get(key);
+	        if(value instanceof Integer) {
+	        	newPaymentInfoInput.put(key,(int)value);
+	        } else if(value instanceof String) {
+	        	newPaymentInfoInput.put(key,(String)value);
+	        } 
+	        
+	    }
+	    newPaymentInfoInput.put("type", paymentType);
+	    paymentDetailsImplInput.put(newPaymentInfoInput);
+		paymentDetailsImpl.setPaymentInfo(paymentDetailsImplInput);
+		salesServiceResponse = paymentDetailsImpl.updatePaymentDetails();
+		return (salesServiceResponse.getStatus() ? 1 : 0);
 	}
 
 	public void setCustomerInfo(JSONObject jsonObject) {

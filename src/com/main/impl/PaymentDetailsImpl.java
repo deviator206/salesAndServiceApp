@@ -38,6 +38,96 @@ public class PaymentDetailsImpl extends ServiceBase{
 		
 	}
 
+	
+	public SalesServiceResponse updateFinalPaymentDetails() {
+		SalesServiceResponse ps= new SalesServiceResponse();
+		boolean success =false;
+		int count = 0;
+		this.getConnection();
+		try {
+			
+			for (int i=0;i<this.paymentInfoList.length();i++){
+				this.paymentInfo = this.paymentInfoList.getJSONObject(i);
+				PreparedStatement preparedStmt =  getQueryBasedOnFinalDeliveryInput();
+			    int UpdatedCount = preparedStmt.executeUpdate();
+			    if (UpdatedCount > 0){
+			    	count++;
+			    }
+			}
+			
+			int len = this.paymentInfoList.length();
+			if (count == len){
+				success = true;
+			}
+			
+		    this.dbConnection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		ps.setStatus(success);
+		ps.setCounter(count);
+		return ps;
+	}
+	
+	
+	private PreparedStatement getQueryBasedOnFinalDeliveryInput() throws JSONException, SQLException{
+		String query = "" ;
+		String invoiceID = this.invoiceInformation.get("invoice");
+		int additionalCash =0;
+		if (this.paymentInfo.has("additional_cash")){
+			additionalCash = this.paymentInfo.getInt("additional_cash");
+		}
+		PreparedStatement preparedStmt = null ;
+	    	if(this.paymentInfo.getString("type").equalsIgnoreCase("CASH")) {
+				//insert into PAYMENT_DETAILS_TABLE(cash,invoice_id,invoice_tin) values ('5000','CE/2017-18/6','2763039355V');
+				query = "UPDATE payment_details_table SET final_cash  = ? WHERE invoice_id = ?  ";
+				//("+this.paymentInfo.getString("cash")+","+this.invoiceInformation.get("invoice")+","+this.invoiceInformation.get("vatTinNumber")+")
+				preparedStmt =  this.dbConnection.prepareStatement(query);
+				preparedStmt.setFloat(1, this.paymentInfo.getInt("amount"));
+				preparedStmt.setString(2, invoiceID);
+				
+				
+			} else if(this.paymentInfo.getString("type").equalsIgnoreCase("CARD")) {
+				//insert into PAYMENT_DETAILS_TABLE(cardNo,bankName,invoice_id,invoice_tin) values ('345678093234324823418','Standarad Chartered Bank','CE/2017-18/6','2763039355V');
+				query = "update payment_details_table  SET final_amount  = ?, final_cardNo = ?, final_cardNetwork = ? , final_cash = ? WHERE invoice_id = ? ";
+				//("+this.paymentInfo.getString("cardNumber")+","+this.paymentInfo.getString("bankName")+","+this.invoiceInformation.get("invoice")+","+this.invoiceInformation.get("vatTinNumber")+")"
+				preparedStmt =  this.dbConnection.prepareStatement(query);
+				preparedStmt.setFloat(1, this.paymentInfo.getInt("amount"));
+				preparedStmt.setString(2, this.paymentInfo.getString("cardNumber"));
+				preparedStmt.setString(3, this.paymentInfo.getString("cardNetwork"));
+				preparedStmt.setFloat(4, additionalCash);
+				preparedStmt.setString(5, this.invoiceInformation.get("invoice"));
+				
+
+			} else if(this.paymentInfo.getString("type").equalsIgnoreCase("CHEQ")) {
+				query = "update payment_details_table  SET final_amount  = ?, final_cheqNo = ?, final_cheqDate = ? , final_bankName = ? , final_cash = ? WHERE invoice_id = ? ";
+				preparedStmt =  this.dbConnection.prepareStatement(query);
+				preparedStmt.setFloat(1, this.paymentInfo.getInt("amount"));
+				preparedStmt.setString(2, this.paymentInfo.getString("cheqNo"));
+				preparedStmt.setString(3, this.paymentInfo.getString("cheqDate"));
+				preparedStmt.setString(4, this.paymentInfo.getString("bankName"));
+				preparedStmt.setFloat(5, additionalCash);
+				preparedStmt.setString(6, this.invoiceInformation.get("invoice"));
+				
+			}else if(this.paymentInfo.getString("type").equalsIgnoreCase("ONLINE")) {
+				query = "update payment_details_table  SET final_amount  = ?, final_onlinePaymentMode = ?, final_onlineTransactionId = ? , final_onlineRemark = ? , final_cash = ? WHERE invoice_id = ? ";
+				preparedStmt =  this.dbConnection.prepareStatement(query);
+				preparedStmt.setFloat(1, this.paymentInfo.getInt("amount"));
+				preparedStmt.setString(2, this.paymentInfo.getString("payMode"));
+				preparedStmt.setString(3, this.paymentInfo.getString("transactionId"));
+				preparedStmt.setString(4, this.paymentInfo.getString("remark"));
+				preparedStmt.setFloat(5, additionalCash);
+				preparedStmt.setString(6, this.invoiceInformation.get("invoice"));
+				
+			}
+		return preparedStmt;
+	}
+
 	public SalesServiceResponse updatePaymentDetails() {
 		SalesServiceResponse ps= new SalesServiceResponse();
 		boolean success =false;
@@ -75,6 +165,9 @@ public class PaymentDetailsImpl extends ServiceBase{
 		ps.setCounter(count);
 		return ps;
 	}
+	
+	
+	
 
 	private PreparedStatement getQueryBasedOnInput() throws JSONException, SQLException {
 		
@@ -92,12 +185,12 @@ public class PaymentDetailsImpl extends ServiceBase{
 				
 			} else if(this.paymentInfo.getString("type").equalsIgnoreCase("CARD")) {
 				//insert into PAYMENT_DETAILS_TABLE(cardNo,bankName,invoice_id,invoice_tin) values ('345678093234324823418','Standarad Chartered Bank','CE/2017-18/6','2763039355V');
-				query = "insert into "+this.PAYMENT_TABLE+"("+this.COL_CARD_NO+","+this.COL_BANK_NAME+","+this.COL_INVOICE+","+this.COL_TIN+","+this.COL_AMOUNT+") values (?,?,?,?,?)";
+				query = "insert into "+this.PAYMENT_TABLE+"("+this.COL_CARD_NO+",cardNetwork ,"+this.COL_INVOICE+","+this.COL_TIN+","+this.COL_AMOUNT+") values (?,?,?,?,?)";
 				//("+this.paymentInfo.getString("cardNumber")+","+this.paymentInfo.getString("bankName")+","+this.invoiceInformation.get("invoice")+","+this.invoiceInformation.get("vatTinNumber")+")"
 				preparedStmt =  this.dbConnection.prepareStatement(query);
 				
 				preparedStmt.setString(1, this.paymentInfo.getString("cardNumber"));
-				preparedStmt.setString(2, this.paymentInfo.getString("bankName"));
+				preparedStmt.setString(2, this.paymentInfo.getString("cardNetwork"));
 				preparedStmt.setFloat(5, this.paymentInfo.getInt("amount"));
 				preparedStmt.setString(3, this.invoiceInformation.get("invoice"));
 				preparedStmt.setString(4, this.invoiceInformation.get("vatTinNumber"));
@@ -118,7 +211,7 @@ public class PaymentDetailsImpl extends ServiceBase{
 				
 			}else if(this.paymentInfo.getString("type").equalsIgnoreCase("ONLINE")) {
 				//insert into PAYMENT_DETAILS_TABLE(cheqNo,cheqDate,bankName,invoice_id,invoice_tin) values ('345678093218','12/6/2017','SBI','CE/2017-18/6','2763039355V');
-				query = "insert into "+this.PAYMENT_TABLE+"("+this.COL_CHEQ_NO+",onlinePaymentMode,onlineTransactionId,onlineRemark,"+this.COL_TIN+","+this.COL_AMOUNT+") values (?,?,?,?,?,?)";
+				query = "insert into "+this.PAYMENT_TABLE+"(onlinePaymentMode,onlineTransactionId,onlineRemark,"+this.COL_INVOICE+","+this.COL_TIN+","+this.COL_AMOUNT+") values (?,?,?,?,?,?)";
 				// ("+this.paymentInfo.getString("cheqNo")+","+this.paymentInfo.getString("cheqDate")+","+this.paymentInfo.getString("bankName")+","+this.invoiceInformation.get("invoice")+","+this.invoiceInformation.get("vatTinNumber")+")
 				preparedStmt =  this.dbConnection.prepareStatement(query);
 				preparedStmt.setString(1, this.paymentInfo.getString("payMode"));

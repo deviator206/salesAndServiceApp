@@ -11,7 +11,7 @@ angular.module('salesApp.repair', ['ngRoute'])
 
 .controller('RepairReportCtrl',['$scope','$http', 'Util','$location', function($scope,$http,Util,$location) {
 	$scope.searchFilterOptions = [ "CUSTOMER_NAME","CUSTOMER_PHONE", "SERVICE_ID","SERIAL_NUMBER", "PRODUCT_NAME"];
-	$scope.searchFilterByOptions=["SEARCH BY TEXT"];
+	$scope.searchFilterByOptions=["SEARCH BY TEXT","SEARCH BY DATE"];
 	//, "SEARCH BY DATE"
 	$scope.selectedFilterOption = $scope.searchFilterOptions[0];
 	$scope.searchQueryObject ={};
@@ -130,6 +130,9 @@ angular.module('salesApp.repair', ['ngRoute'])
 
 	$scope.onFilterByOptionIsChanged = function(){
 		this.resetInput();
+		$scope.serviceDateTo=new Date();
+		$scope.actualServiceList = [];
+		   
 	}
 
 	$scope.populateQueryObject = function(){
@@ -141,7 +144,7 @@ angular.module('salesApp.repair', ['ngRoute'])
 				 	return false;
 				}
 				this.searchQueryObject["query"] = $scope.searchServiceByText;
-				this.searchQueryObject["type"] = 'TEXT';
+				this.searchQueryObject["type"] = 'BY_QUERY';
 				this.searchQueryObject["col"] = $scope.selectedFilterOption.replace(/\s+/g, '');
 			}else {
 				if ($scope.serviceDateTo === "" || $scope.serviceDateFromModel === "" ) {
@@ -150,9 +153,9 @@ angular.module('salesApp.repair', ['ngRoute'])
 				}
 				else {
 						this.searchQueryObject["query"] = '';
-					this.searchQueryObject["type"] = 'DATE';
-					this.searchQueryObject["startFrom"] = Util.jsDateConversionFunction($scope.serviceDateFromModel);
-					this.searchQueryObject["startTo"] = Util.jsDateConversionFunction($scope.serviceDateTo);	
+					this.searchQueryObject["type"] = 'BY_DATE';
+					this.searchQueryObject["startFrom"] = Util.jsDateConversionFunction($scope.serviceDateFromModel,true);
+					this.searchQueryObject["startTo"] = Util.jsDateConversionFunction($scope.serviceDateTo,true);	
 				}
 				
 			}
@@ -163,19 +166,27 @@ angular.module('salesApp.repair', ['ngRoute'])
 	}
 
 	$scope.searchTextAsPerFilterOption = function(){
-		if ($scope.searchServiceByText.length > 1) {
-			var b = this.populateQueryObject();
-			if (b) {
-				$scope.invokeSearch();
-			}
-			
+		switch($scope.searchTextAsPerFilterOption){
+			case "SEARCH BY TEXT":
+				if ($scope.searchServiceByText.length > 1) {
+					var b = this.populateQueryObject();
+					if (b) {
+						$scope.invokeSearch();
+					}
+					
+				}
+				else {
+					 $scope.errorInSearchOptions ="Enter atleast 4 letters for searching.."
+				}
+			break;
+			default :
+				var b = this.populateQueryObject();
+				if (b) {
+					$scope.invokeSearch();
+				}
+			break;	
+				
 		}
-		else {
-			 $scope.errorInSearchOptions ="Enter atleast 4 letters for searching.."
-		}
-		
-
-		// invoke Search
 		
 	}
 	
@@ -190,7 +201,8 @@ angular.module('salesApp.repair', ['ngRoute'])
 		$http({
 			//method: "POST",
 			method: "GET",
-			 url: 'rest/repair/tech-new-jobs?v='+(Math.random()),
+			 // url: 'rest/repair/tech-new-jobs?v='+(Math.random()),
+			 url: 'rest/repair/report-all-jobs?v='+(Math.random()),
 			 // url: 'service-pickup/searchOptionForService.json?v='+(Math.random()),
 			  params:this.searchQueryObject
 			}).then(function successCallback(response) {
@@ -199,7 +211,8 @@ angular.module('salesApp.repair', ['ngRoute'])
 					 $scope.errorInSearchOptions = "Found "+response.data.searchResults.length+" records";
 					 $scope.actualServiceList =response.data.searchResults;
 					 $scope.actualTotalIncome = (response.data.finalIncome) ? response.data.finalIncome :0;
-					 
+					 $scope.actualOnlyAdvancedRecievedIncome = (response.data.finalIncome) ? response.data.finalIncome :0;
+					 $scope.totalFinalIncome = parseInt($scope.actualTotalIncome) + parseInt($scope.actualOnlyAdvancedRecievedIncome);
 					 
 				}
 				else {

@@ -108,15 +108,47 @@ public class RepairService {
 	@Path("tech-new-jobs")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public SearchRepairServiceResponse getRepairStatus(@QueryParam("query") String queryText,@QueryParam("col") String queryOnColumn,@QueryParam("status") String statusText) throws JSONException, InternalError, SQLException{
+	public SearchRepairServiceResponse getRepairStatus(@QueryParam("query") String queryText,
+				@QueryParam("col") String queryOnColumn,
+				@QueryParam("status") String statusText,
+				@QueryParam("type") String filterType,
+				@QueryParam("startFrom") String startFrom,
+				@QueryParam("startTo") String startTo) throws JSONException, InternalError, SQLException{
 		
 		GetRepairRequestStatusImpl getRepairRequestStatusImpl = new GetRepairRequestStatusImpl();
 		getRepairRequestStatusImpl.setQueryText(queryText);
 		getRepairRequestStatusImpl.setQueryOnColumn(queryOnColumn);
+		getRepairRequestStatusImpl.setByType(filterType);
+		getRepairRequestStatusImpl.setStartFrom(startFrom);
+		getRepairRequestStatusImpl.setStartTo(startTo);
 		getRepairRequestStatusImpl.setStatus(statusText);
 		getRepairRequestStatusImpl.execute();
 		return getRepairRequestStatusImpl.getSearchResult();
 	}
+	
+	
+	@Path("report-all-jobs")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public SearchRepairServiceResponse getRepairReportStatus(@QueryParam("query") String queryText,
+				@QueryParam("col") String queryOnColumn,
+				@QueryParam("status") String statusText,
+				@QueryParam("type") String filterType,
+				@QueryParam("startFrom") String startFrom,
+				@QueryParam("startTo") String startTo) throws JSONException, InternalError, SQLException{
+		
+		GetRepairRequestStatusImpl getRepairRequestStatusImpl = new GetRepairRequestStatusImpl();
+		getRepairRequestStatusImpl.setQueryText(queryText);
+		getRepairRequestStatusImpl.setQueryOnColumn(queryOnColumn);
+		getRepairRequestStatusImpl.setByType(filterType);
+		getRepairRequestStatusImpl.setStartFrom(startFrom);
+		getRepairRequestStatusImpl.setStartTo(startTo);
+		getRepairRequestStatusImpl.setStatus(statusText);
+		getRepairRequestStatusImpl.setServiceMode();
+		getRepairRequestStatusImpl.execute();
+		return getRepairRequestStatusImpl.getSearchResult();
+	}
+	
 	
 	@Path("tech-job-status-update")
 	@POST

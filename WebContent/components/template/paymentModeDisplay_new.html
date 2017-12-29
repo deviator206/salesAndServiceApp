@@ -18,7 +18,7 @@
 	</tr>
 	<tr/>
 	<tr ng-if="paymentInfo.additional_cash && paymentInfo.additional_cash !== ''">
-		<td ng-if="paymentInfo.cash.amount != '0'" class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; CASH :{{paymentInfo.cash.amount +" INR"}}</td>
+		<td ng-if="paymentInfo.additional_cash != '0'" class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; Some Amount By CASH :{{paymentInfo.additional_cash +" INR"}}</td>
 	</tr>
 </table>
 
@@ -36,7 +36,7 @@
 	</tr>
 	<tr/>
 	<tr ng-if="paymentInfo.additional_cash && paymentInfo.additional_cash !== ''">
-		<td ng-if="paymentInfo.cash.amount != '0'"  class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; CASH :{{paymentInfo.cash.amount +" INR"}}</td>
+		<td ng-if="paymentInfo.additional_cash != '0'"  class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; Some Amount By  CASH :{{paymentInfo.additional_cash +" INR"}}</td>
 	</tr>
 </table>
 
@@ -47,13 +47,13 @@
 	<tr>
 	    <td>
 	    	<span  ng-if="paymentInfo.online.payMode !== ''" ><strong >Mode</strong>:{{paymentInfo.online.payMode}} |</span>
-	    	<span ng-if="paymentInfo.online.transactionID !== ''" ><strong> Transaction ID</strong>: {{paymentInfo.online.transactionID}} |</span>
+	    	<span ng-if="paymentInfo.online.transactionId !== ''" ><strong> Transaction ID</strong>: {{paymentInfo.online.transactionId}} |</span>
 	    	<span ng-if="paymentInfo.online.remark !== ''"  ><strong>Remark</strong>:{{paymentInfo.online.remark}} </span>
 	    </td>
 	</tr>
 	<tr/>
 	<tr ng-if="paymentInfo.additional_cash && paymentInfo.additional_cash !== ''">
-		<td ng-if="paymentInfo.cash.amount != '0'"  class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; CASH :{{paymentInfo.cash.amount +" INR"}}</td>
+		<td ng-if="paymentInfo.additional_cash != '0'"  class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; Some Amount By CASH :{{paymentInfo.additional_cash +" INR"}}</td>
 	</tr>
 </table>
 
