@@ -79,7 +79,7 @@ CREATE TABLE `payment_details_table` (
   `final_onlineRemark` varchar(60) DEFAULT NULL,
   `final_amount` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `repair_invoice_table` */
 
@@ -105,7 +105,7 @@ CREATE TABLE `sales_invoice_table` (
   `vat_tin_number` varchar(60) DEFAULT '2763039355V',
   PRIMARY KEY (`id`),
   UNIQUE KEY `actualInvoiceId` (`actualInvoiceId`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `sales_order_table` */
 
@@ -126,7 +126,7 @@ CREATE TABLE `sales_order_table` (
   `total_amount` float(10,2) NOT NULL,
   `tax_value` float(10,2) DEFAULT NULL,
   PRIMARY KEY (`sale_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `service_customer_table` */
 
