@@ -145,11 +145,13 @@
 	</div>
 	
 	<div class="row" ng-if='receiptType === "RECEIPT"'>
+	<div class="col-md-12">
 			<table class="table table-bordered table-condensed invoice-margin">
 				<tr>
 				    <td class="col-xs-6"><strong >Delivery Date</strong>: {{ serviceRequest.finalDeliveryDate }}</td>
 				</tr>
 			</table>
+	</div>
 	</div>
     
     <div class="row" ng-if='receiptType === "ESTIMATE"'>
