@@ -44,6 +44,10 @@ angular.module('salesApp.repair', ['ngRoute'])
 		$scope.serviceSearchCriteriaIncomplete = "";
 		$scope.searchServiceByText ="";
 		$scope.actualServiceList =[];
+		$scope.actualTotalIncome = 0;
+		 $scope.actualOnlyAdvancedRecievedIncome = 0;
+		 $scope.totalFinalIncome = 0;
+		
 		$scope.selectedServiceOrderId ="";
 		$scope.itemSelectionError ="";
 		$scope.selectedServiceOrderId  ="";
@@ -132,6 +136,10 @@ angular.module('salesApp.repair', ['ngRoute'])
 		this.resetInput();
 		$scope.serviceDateTo=new Date();
 		$scope.actualServiceList = [];
+		$scope.actualTotalIncome = 0;
+		 $scope.actualOnlyAdvancedRecievedIncome = 0;
+		 $scope.totalFinalIncome = 0;
+		
 		   
 	}
 
@@ -198,6 +206,9 @@ angular.module('salesApp.repair', ['ngRoute'])
 		
 			
 		$scope.actualServiceList = [];
+		$scope.actualTotalIncome = 0;
+		 $scope.actualOnlyAdvancedRecievedIncome = 0;
+		 $scope.totalFinalIncome = 0;
 		$http({
 			//method: "POST",
 			method: "GET",

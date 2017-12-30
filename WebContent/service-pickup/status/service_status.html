@@ -129,6 +129,7 @@
                                 <hr/>
                                 <span class="in-table-data"> Status: </span> {{uiToBackendMap[row.serviceStatus]}} <br/>	
                                 <hr/>
+                                <span ng-if="(row.commentsInfo.customer != null && row.commentsInfo.customer !== '' )" class="in-table-data"> Nature Of Complaint: </span> {{row.commentsInfo.customer}} <br/> 
                                  <span ng-if="(row.commentsInfo.tech != null && row.commentsInfo.tech !== '' )" class="in-table-data"> Original Comment: </span> {{row.commentsInfo.tech}} <br/> 
 				        <span ng-if="(row.commentsInfo.th_comment != null && row.commentsInfo.th_comment !== '' )" class="in-table-data"> Technician  Handle: </span> {{row.commentsInfo.th_comment}} <br/>
 				        <span ng-if="(row.commentsInfo.pp_comment != null && row.commentsInfo.pp_comment !== '' )" class="in-table-data"> Part Pending: </span> {{row.commentsInfo.pp_comment}} <br/>
