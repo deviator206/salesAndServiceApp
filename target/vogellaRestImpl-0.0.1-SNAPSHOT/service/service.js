@@ -14,7 +14,10 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
     $scope.isValidProductToAdd = false;
     $scope.serviceResponse = [];
     $scope.serviceDate = new Date();
+    $scope.serviceEstimatedDeliveryDate;
+    $scope.serviceEstimatedDeliveryCost;
     $scope.serviceOrderDate = new Date();
+    $scope.serviceFinalDeliveryDate = new Date();
     $scope.paymentInfo = Util.paymentInfoObj();
     $scope.printPage = Util.printPage;
     
@@ -56,7 +59,8 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         //setDummyProduct();
         //console.log($routeParams);
     	$scope.receiptXtraName = "NAIK "
-        $scope.receiptType = "RECEIPT";    
+        $scope.receiptType = "RECEIPT";   
+    	$scope.serviceFinalDeliveryDate = new Date();
         mapHashChangeToMenuUpdate();
         var requestParams = {};
         if($routeParams.serviceId !==undefined){
@@ -113,6 +117,8 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         if($scope.serviceRequest.courierOutwardInfo.courierName !== "" || $scope.serviceRequest.courierOutwardInfo.courierDocumentNo !== ""  ||$scope.serviceRequest.courierOutwardInfo.courierPhone !== ""  ) {
         	$scope.serviceRequest.courierOutwardInfo.isCourier = true;
         }
+        $scope.serviceRequest.finalDeliveryDate = Util.jsDateConversionFunction($scope.serviceFinalDeliveryDate);
+        
         $scope.serviceRequest.paymentInfo = angular.copy($scope.paymentInfo);
         var postParam = angular.copy($scope.serviceRequest);
 
@@ -404,6 +410,15 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         $scope.serviceRequest.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
         $scope.serviceRequest.accList = $scope.prepareForServer($scope.serviceRequest.accessoryList);
         $scope.serviceRequest.probList= $scope.prepareForServer($scope.serviceRequest.problemLists);
+        $scope.serviceRequest.estimation = {}
+        
+        if ($scope.serviceEstimatedDeliveryCost) {
+        	$scope.serviceRequest.estimation.cost = $scope.serviceEstimatedDeliveryCost;
+        }
+        
+        if ($scope.serviceEstimatedDeliveryDate) {
+        	$scope.serviceRequest.estimation.date = Util.jsDateConversionFunction( $scope.serviceEstimatedDeliveryDate);
+        }
         
         if ($scope.serviceRequest.paymentInfo && $scope.serviceRequest.paymentInfo.additional_cash) {
         	$scope.serviceRequest.paymentInfo.cash.amount = Number($scope.serviceRequest.paymentInfo.cash.amount) + Number($scope.serviceRequest.paymentInfo.additional_cash)

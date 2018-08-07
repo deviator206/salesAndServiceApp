@@ -1,12 +1,19 @@
 angular.module('salesApp.services.Util', ['ui.bootstrap'])
 .service('Util', ['$http', '$uibModal', function ($http, $modal) {
-    this.jsDateConversionFunction = function (now) {
+    this.jsDateConversionFunction = function (now,needTime) {
       var year = "" + now.getFullYear();
       var month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
       var day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
       var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
       var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
       var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+      if (needTime) {
+    	  return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+      } else if (hour === '00' && minute === '00' && second === '00') {
+    	  return year + "-" + month + "-" + day;
+      }
+      
+      
       return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
   };
   

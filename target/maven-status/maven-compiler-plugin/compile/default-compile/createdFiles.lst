@@ -1,4 +1,5 @@
 com\main\GenerateInvoiceService.class
+com\main\models\PaymentSingleFinalModel.class
 com\main\models\UserInfo.class
 com\main\RepairService.class
 test\MyTestableClass.class
@@ -32,6 +33,7 @@ com\main\impl\CreateNewSaleEntryServiceImpl.class
 com\main\models\UpdateRepairServiceResponse.class
 com\main\models\RepairServiceResponse.class
 com\main\models\PaymentInfoModel.class
+com\main\models\PaymentSingleModel.class
 test\MyTests.class
 com\main\impl\LoginServiceImpl.class
 com\main\impl\PaymentDetailsImpl.class

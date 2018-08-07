@@ -225,7 +225,7 @@
   </div>  
 </fieldset>
 
-<fieldset class="sales-operation-section" ng-if="serviceRequest.productInfo.length >0">
+<fieldset class="sales-operation-section" ng-if="serviceRequest.productInfo.length >0 && serviceRequest.serviceStatus !== 'DTC'">
     <!--<legend class="sales-operation-section">Final Step</legend>-->
     <div class="form-group width-97" style="margin:0 auto">
         <button type="submit" class="btn btn-block btn-success" 

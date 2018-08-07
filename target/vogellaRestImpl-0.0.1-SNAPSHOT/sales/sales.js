@@ -19,7 +19,11 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
     $scope.salesResponseData = [];
     $scope.printPage = Util.printPage;
     $scope.taxTypes = [
-        {name: "GST", value: "0"}
+        {name: "GST_0%", value: "0"},
+        {name: "GST_5%", value: "5"},
+        {name: "GST_12%", value: "12"},
+        {name: "GST_18%", value: "18"},
+        {name: "GST_28%", value: "28"}
     ];
     
     $scope.taxTypeTotal = {};

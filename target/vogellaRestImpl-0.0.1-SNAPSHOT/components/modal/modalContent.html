@@ -20,11 +20,14 @@
                     <td class="col-xs-2">&nbsp; {{customerDetails.name}}</td>
                     <td class="col-xs-4"></td>
                     <td class="col-xs-1"><span class="pull-right">Mobile</span></td>
-                    <td class="col-xs-3"><span class="pull-left">:</span>&nbsp; <span>{{customerDetails.phone}}</span></td>
+                    <td class="col-xs-3"><span class="pull-left">:</span>&nbsp; 
+                    	<span>{{customerDetails.phone}}</span>
+                    	<span ng-if="customerDetails.alternateNo">Alternate : {{customerDetails.alternateNo}}</span>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="col-xs-2"><span class="pull-left">Address</span> <span class="pull-right">:</span></td>
-                    <td class="col-xs-10" colspan="4">&nbsp; {{customerDetails.address}}</td>
+                    <td class="col-xs-2" ng-if="customerDetails.address" ><span class="pull-left">Address</span> <span class="pull-right">:</span></td>
+                    <td class="col-xs-10" ng-if="customerDetails.address" colspan="4">&nbsp; {{customerDetails.address}}</td>
                 </tr>
             </table>
         </div>
@@ -78,14 +81,12 @@
     
     <div class="row">
         <div class="col-xs-12">
-            <!-- <table class="table table-condensed no-border invoice-margin">
+            <table class="table table-condensed no-border invoice-margin">
                 <tr>
-                    <td class="col-xs-2"><span class="pull-left">VAT Tin No.</span> <span class="pull-right">:</span></td>
-                    <td class="col-xs-2">&nbsp; {{salesResponseData.vatTinNumber}}</td>
-                    <td class="col-xs-8"></td>
+                    <td class="col-xs-2"><span class="pull-left"> <strong>GSTIN.</strong> {{salesResponseData.vatTinNumber}}</span></td>
                 </tr>
-            </table> -->
-            <div ng-include="'components/template/paymentModeDisplay.html'"></div>
+            </table> 
+            <div ng-include="'components/template/paymentModeDisplay_new.html'"></div>
             </div>
     </div>
     

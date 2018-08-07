@@ -210,7 +210,7 @@
        </div> 
       </div>
       
-      <!-- <div class="form-group col-sm-2 ">
+       <div class="form-group col-sm-2 ">
       <div>
             <label for="current-product-taxType">Tax Type</label>
             <select id="current-product-taxType" ng-enter="addProduct();setFocusTo('currentProductName')" ng-model="curentProduct.taxType" 
@@ -218,7 +218,7 @@
                 <option ng-repeat="x in taxTypes" value="{{x.name}}">{{x.name}}({{x.value}}%)</option>
             </select>
       </div>  
-      </div>  -->
+      </div>  
       <div class="form-group col-sm-2 ">
       <div class="col-sm-12">
         <label for="current-product-add">.</label>
@@ -244,9 +244,8 @@
                 <th style="width:20%">serial No</th>
                 <th style="width:5%">Qty</th>
                 <th style="width:15%">Rate</th> 
-                <!-- 
                 <th style="width:15%">Tax Type</th>
-                <th style="width:10%">Tax Amount</th> -->
+                <th style="width:10%">Tax Amount</th> 
                 <th style="width:10%">Total Amount</th>
                 <th></th>
             </tr>
@@ -258,9 +257,9 @@
                 <td>{{row.sn}}</td>
                 <td><span class="pull-right">{{row.quantity}}</span></td>
                 <td><span class="pull-right">{{row.totalPrice}}</span></td>
-               <!-- 
+               
                 <td>{{row.taxType}} ({{row.taxValue}}%)</td>
-                <td><span class="pull-right">{{row.taxAmmount}}</span></td> -->
+                <td><span class="pull-right">{{row.taxAmmount}}</span></td> 
                 <td><span class="pull-right">{{row.grandTotal}}</span></td>
                 <td>
                     <button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">

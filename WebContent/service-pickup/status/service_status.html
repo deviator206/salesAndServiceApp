@@ -97,11 +97,12 @@
                             <th style="width:2.5%">Sr. No.</th>
                             <th style="width:7.5%">Service Number</th>
                             <th style="width:5%"> Date Info</th>
-                            <th style="width:15%">Customer Info</th>
+                            <th style="width:10%">Customer Info</th>
                             <th style="width:15%">Product Details</th>
                             <th style="width:25%">Technician Status</th>
                             <th style="width:10%">Inward Courier</th>
                             <th style="width:10%">Outward Courier</th>
+                            <th style="width:5%">Get Bill</th>
 
                         </tr>
                     </thead>
@@ -155,6 +156,9 @@
                             {{row.outwardCourierInfo.courierPhone}}
                             
                             </td>
+                        <td>
+                           <input type="button" value="View Bill" ng-click="viewBill(row)" />
+                        </td>
                         </tr>
                     </tbody>
                 </table>

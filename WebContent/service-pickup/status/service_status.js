@@ -10,7 +10,7 @@ angular.module('salesApp.service_status', ['ngRoute'])
 }])
 
 .controller('ServiceStatusController', ['$scope', '$http', '$uibModal', '$log','Util' ,function($scope, $http, $modal, $log,Util) {
-	  
+	$scope.printPage = Util.printPage;
 	 $scope.backendItemStatusMap= {
 		        "IN PROGRESS" :"IP",
 		        "NOT STARTED" :"NS",
@@ -53,7 +53,26 @@ angular.module('salesApp.service_status', ['ngRoute'])
 	   $scope.statusSearchTextModel ="";
 	}
  
+ $scope.reloadPage = function(event){
+	 this.$close();
+ }
  
+ 
+	$scope.viewBill = function(obj) 
+	{
+		$scope.serviceResponse = obj;
+		$scope.serviceResponse.repairReceiptId = obj.serviceNumber;
+		$scope.serviceRequest = obj;
+		if (obj.serviceStatus !== 'DTC') {
+			$scope.receiptType = 'ESTIMATE'
+			$scope.receiptXtraName = "NAIK "
+		} else {
+			$scope.receiptType = 'INVOICE'
+		}
+		
+		
+		Util.openPrintPopUp($scope, 'service-drop');
+	}
  $scope.statusSearchTextAsPerFilterOption = function(){
 	 var obj = {};
 	 

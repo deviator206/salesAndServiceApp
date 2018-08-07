@@ -39,7 +39,7 @@
 
 
 				<div class="col-sm-4"
-					ng-show="selectedFilterByOption === 'SEARCH BY DATE'">
+					ng-show="selectedFilterByOption == 'SEARCH BY DATE'">
 
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="serviceDateFrom">From:
@@ -47,7 +47,7 @@
 						<div class="col-md-10">
 							<p class="input-group">
 								<input class="form-control" autocomplete="off" type="date"
-									id="service-drop-from" name="serviceDateFrom"
+									id="service-drop-from1" name="serviceDateFrom"
 									ng-model="serviceDateFromModel" popup="d MMM yyyy"
 									options="dateOptions" opened="opened1" my-datepicker />
 							</p>
@@ -59,7 +59,7 @@
 						<div class="col-md-10">
 							<p class="input-group">
 								<input class="form-control" autocomplete="off" type="date"
-									id="service-drop-to" name="serviceDateTo"
+									id="service-drop-to1" name="serviceDateTo"
 									ng-model="serviceDateTo" popup="d MMM yyyy"
 									options="dateOptions" opened="opened2" my-datepicker />
 							</p>
@@ -85,19 +85,23 @@
 		<div class="row" ng-hide="someOrderIsSelectedForDelivery()">
 			<fieldset class="product-list-section">
 				<legend class="product-list-section">Result List</legend>
-				<span ng-if="actualTotalIncome !== 0">Income  = {{actualTotalIncome}}</span>
+				<span ng-if="actualTotalIncome !== 0">Closed Jobs Income  = {{actualTotalIncome}}</span> <br/>
+				<span ng-if="actualOnlyAdvancedRecievedIncome !== 0">Pending Jobs Income  = {{actualOnlyAdvancedRecievedIncome}}</span><br/>
+				<span ng-if="totalFinalIncome !== 0">Total Income  = {{totalFinalIncome}}</span><br/>
 				<legend class="  errMsg">{{itemSelectionError}}</legend>
 				<div class="center-block" style="width: 97%; margin: 0 auto">
 					<table st-table="selectedProducts" class="table table-bordered">
 						<thead>
 							<tr style="background-color: #f5f2f0">
 								<th style="width: 5%">Sr. No.</th>
-								<th style="width: 5%">Advanced</th>
-								<th style="width: 10%">Final Payment</th>
+								<th style="width: 15%">Advanced</th>
+								<th style="width: 15%">Final Payment</th>
 								<th style="width: 10%">Service Info.</th>
 								<th style="width: 20%">Customer Info</th>
 								<th style="width: 10%">Product Info</th>
+								
 								<!--
+								<th style="width: 20%">Payment Info</th>
 								<th style="width: 10%">Comments</th> 
 								<th style="width: 10%">Courier Info</th>-->
 								
@@ -107,12 +111,58 @@
 							<tr ng-repeat="row in actualServiceList"
 								data-my={row.serviceNumber}>
 								<td>{{$index+1}}</td>
-								<td>{{row.paymentInfo.advancePayment}}</td>
-								<td>{{row.paymentInfo.finalAmount}}</td>
+								<td>{{row.paymentInfo.advancePayment}}
+								<hr/>
+								<span ng-if="row.paymentSingleModel.cash != null"  class="in-table-data">
+										Cash : {{row.paymentSingleModel.cash}} 
+										
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleModel.cheqNo != null" ><strong>Cheq No :</strong> {{row.paymentSingleModel.cheqNo}}###</span>
+										<span ng-if="row.paymentSingleModel.cheqDate != null"><strong>Cheq Date :</strong>{{row.paymentSingleModel.cheqDate}}###</span>
+										<span ng-if="row.paymentSingleModel.bankName != null"><strong>Bank :</strong>{{row.paymentSingleModel.bankName}}</span> 
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleModel.cardNo != null" ><strong>Card No :</strong>{{row.paymentSingleModel.cardNo}}###</span>
+										<span ng-if="row.paymentSingleModel.cardNetwork != null"><strong>Card Network :</strong>{{row.paymentSingleModel.cardNetwork}}</span>
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleModel.onlinePaymentMode != null" ><strong>Payment Mode :</strong>{{row.paymentSingleModel.onlinePaymentMode}}###</span>
+										<span ng-if="row.paymentSingleModel.onlineTransactionId != null"><strong>Transaction Id :</strong>{{row.paymentSingleModel.onlineTransactionId}}###</span>
+										<span ng-if="row.paymentSingleModel.onlineRemark != null"><strong>Remark :</strong>{{row.paymentSingleModel.onlineRemark}}</span>
+									</span>
+									
+								
+								</td>
+								<td>{{row.paymentInfo.finalAmount}}
+								<hr/>
+								<span ng-if="row.paymentSingleFinalModel.final_cash != null"  class="in-table-data">
+										Cash : {{row.paymentSingleModel.cash}} 
+										
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleFinalModel.final_cheqNo != null" ><strong>Cheq No :</strong> {{row.paymentSingleFinalModel.final_cheqNo}}###</span>
+										<span ng-if="row.paymentSingleFinalModel.final_cheqDate != null"><strong>Cheq Date :</strong>{{row.paymentSingleFinalModel.final_cheqDate}}###</span>
+										<span ng-if="row.paymentSingleFinalModel.final_bankName != null"><strong>Bank :</strong>{{row.paymentSingleFinalModel.final_bankName}}</span> 
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleFinalModel.final_cardNo != null" ><strong>Card No :</strong>{{row.paymentSingleFinalModel.final_cardNo}}###</span>
+										<span ng-if="row.paymentSingleFinalModel.final_cardNetwork != null"><strong>Card Network :</strong>{{row.paymentSingleFinalModel.final_cardNetwork}}</span>
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleFinalModel.final_onlinePaymentMode != null" ><strong>Payment Mode :</strong>{{row.paymentSingleFinalModel.final_onlinePaymentMode}}###</span>
+										<span ng-if="row.paymentSingleFinalModel.final_onlineTransactionId != null"><strong>Transaction Id :</strong>{{row.paymentSingleFinalModel.final_onlineTransactionId}}###</span>
+										<span ng-if="row.paymentSingleFinalModel.final_onlineRemark != null"><strong>Remark :</strong>{{row.paymentSingleFinalModel.final_onlineRemark}}</span>
+									</span>
+									
+								
+								</td>
 
 								<td><span class="in-table-data"> # </span>{{row.serviceNumber}}
-									<br /> <span class="in-table-data">date: </span>
-									{{getFormattedDate(row.serviceDate)}} <br /></td>
+									<br /> <span class="in-table-data">IN: </span>
+									{{getFormattedDate(row.serviceDate)}} <br />
+									
+									</td>
 
 
 								<td>
@@ -128,6 +178,28 @@
 
 
 								</td> 
+								<!-- <td>
+									<span ng-if="row.paymentSingleModel.cash != null"  class="in-table-data">
+										Cash : {{row.paymentSingleModel.cash}} 
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleModel.cheqNo != null" ><strong>Cheq No :</strong> {{row.paymentSingleModel.cheqNo}}###</span>
+										<span ng-if="row.paymentSingleModel.cheqDate != null"><strong>Cheq Date :</strong>{{row.paymentSingleModel.cheqDate}}###</span>
+										<span ng-if="row.paymentSingleModel.bankName != null"><strong>Bank :</strong>{{row.paymentSingleModel.bankName}}</span> 
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleModel.cardNo != null" ><strong>Card No :</strong>{{row.paymentSingleModel.cardNo}}###</span>
+										<span ng-if="row.paymentSingleModel.cardNetwork != null"><strong>Card Network :</strong>{{row.paymentSingleModel.cardNetwork}}</span>
+									</span>
+									<span >
+										<span ng-if="row.paymentSingleModel.onlinePaymentMode != null" ><strong>Payment Mode :</strong>{{row.paymentSingleModel.onlinePaymentMode}}###</span>
+										<span ng-if="row.paymentSingleModel.onlineTransactionId != null"><strong>Transaction Id :</strong>{{row.paymentSingleModel.onlineTransactionId}}###</span>
+										<span ng-if="row.paymentSingleModel.onlineRemark != null"><strong>Remark :</strong>{{row.paymentSingleModel.onlineRemark}}</span>
+									</span>
+								</td> 
+								 -->
+								
+									
 								<!-- 
 								<td>
 								 <span ng-if="(row.commentsInfo.tech != null && row.commentsInfo.tech !== '' )" class="in-table-data"> Original Comment: </span> {{row.commentsInfo.tech}} <br/> 
