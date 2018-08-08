@@ -250,16 +250,16 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 				paymentSingleModel.setCardNetwork(rs.getString(61));
 				paymentSingleModel.setCardBank(rs.getString(62));	
 				
-				paymentSingleFinalModel.setFinal_cash(rs.getString(63));
-				paymentSingleFinalModel.setFinal_cheqNo(rs.getString(64));
-				paymentSingleFinalModel.setFinal_cheqDate(rs.getString(65));
-				paymentSingleFinalModel.setFinal_bankName(rs.getString(66));
-				paymentSingleFinalModel.setFinal_cardNo(rs.getString(67));
-				paymentSingleFinalModel.setFinal_cardNetwork(rs.getString(68));
-				paymentSingleFinalModel.setFinal_onlinePaymentMode(rs.getString(69));
-				paymentSingleFinalModel.setFinal_onlineTransactionId(rs.getString(70));
-				paymentSingleFinalModel.setFinal_onlineRemark(rs.getString(71));
-				paymentSingleFinalModel.setFinal_amount(rs.getString(72));
+				paymentSingleFinalModel.setFinal_cash(rs.getString(64));
+				paymentSingleFinalModel.setFinal_cheqNo(rs.getString(65));
+				paymentSingleFinalModel.setFinal_cheqDate(rs.getString(66));
+				paymentSingleFinalModel.setFinal_bankName(rs.getString(67));
+				paymentSingleFinalModel.setFinal_cardNo(rs.getString(68));
+				paymentSingleFinalModel.setFinal_cardNetwork(rs.getString(69));
+				paymentSingleFinalModel.setFinal_onlinePaymentMode(rs.getString(70));
+				paymentSingleFinalModel.setFinal_onlineTransactionId(rs.getString(71));
+				paymentSingleFinalModel.setFinal_onlineRemark(rs.getString(72));
+				paymentSingleFinalModel.setFinal_amount(rs.getString(73));
 				
 			}
 			

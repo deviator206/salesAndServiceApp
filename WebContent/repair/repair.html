@@ -115,19 +115,24 @@
 								<hr/>
 								<span ng-if="row.paymentSingleModel.cash != null"  class="in-table-data">
 										Cash : {{row.paymentSingleModel.cash}} 
-										
 									</span>
 									<span >
-										<span ng-if="row.paymentSingleModel.cheqNo != null" ><strong>Cheq No :</strong> {{row.paymentSingleModel.cheqNo}}###</span>
+										<span ng-if="row.paymentSingleModel.cheqNo != null" >
+										<br/>
+										<strong>Cheq No :</strong> {{row.paymentSingleModel.cheqNo}}###</span>
 										<span ng-if="row.paymentSingleModel.cheqDate != null"><strong>Cheq Date :</strong>{{row.paymentSingleModel.cheqDate}}###</span>
 										<span ng-if="row.paymentSingleModel.bankName != null"><strong>Bank :</strong>{{row.paymentSingleModel.bankName}}</span> 
 									</span>
 									<span >
-										<span ng-if="row.paymentSingleModel.cardNo != null" ><strong>Card No :</strong>{{row.paymentSingleModel.cardNo}}###</span>
-										<span ng-if="row.paymentSingleModel.cardNetwork != null"><strong>Card Network :</strong>{{row.paymentSingleModel.cardNetwork}}</span>
+										<span ng-if="row.paymentSingleModel.cardNo != null" >
+										<br/>
+										<strong>Card No :</strong>{{row.paymentSingleModel.cardNo}}###</span>
+										<span ng-if="row.paymentSingleModel.cardBank != null"><strong>Card Network :</strong>{{row.paymentSingleModel.cardBank}}</span>
 									</span>
 									<span >
-										<span ng-if="row.paymentSingleModel.onlinePaymentMode != null" ><strong>Payment Mode :</strong>{{row.paymentSingleModel.onlinePaymentMode}}###</span>
+										<span ng-if="row.paymentSingleModel.onlinePaymentMode != null" >
+										<br/>
+										<strong>Payment Mode :</strong>{{row.paymentSingleModel.onlinePaymentMode}}###</span>
 										<span ng-if="row.paymentSingleModel.onlineTransactionId != null"><strong>Transaction Id :</strong>{{row.paymentSingleModel.onlineTransactionId}}###</span>
 										<span ng-if="row.paymentSingleModel.onlineRemark != null"><strong>Remark :</strong>{{row.paymentSingleModel.onlineRemark}}</span>
 									</span>
@@ -137,20 +142,29 @@
 								<td>{{row.paymentInfo.finalAmount}}
 								<hr/>
 								<span ng-if="row.paymentSingleFinalModel.final_cash != null"  class="in-table-data">
-										Cash : {{row.paymentSingleModel.cash}} 
+										Cash : {{row.paymentSingleFinalModel.final_cash}} 
 										
 									</span>
 									<span >
-										<span ng-if="row.paymentSingleFinalModel.final_cheqNo != null" ><strong>Cheq No :</strong> {{row.paymentSingleFinalModel.final_cheqNo}}###</span>
+									
+										<span ng-if="row.paymentSingleFinalModel.final_cheqNo != null" >
+										<br/>
+										<strong>Cheq No :</strong> {{row.paymentSingleFinalModel.final_cheqNo}}###</span>
 										<span ng-if="row.paymentSingleFinalModel.final_cheqDate != null"><strong>Cheq Date :</strong>{{row.paymentSingleFinalModel.final_cheqDate}}###</span>
 										<span ng-if="row.paymentSingleFinalModel.final_bankName != null"><strong>Bank :</strong>{{row.paymentSingleFinalModel.final_bankName}}</span> 
 									</span>
 									<span >
-										<span ng-if="row.paymentSingleFinalModel.final_cardNo != null" ><strong>Card No :</strong>{{row.paymentSingleFinalModel.final_cardNo}}###</span>
+									
+										<span ng-if="row.paymentSingleFinalModel.final_cardNo != null" >
+										<br/>
+										<strong>Card No :</strong>{{row.paymentSingleFinalModel.final_cardNo}}###</span>
 										<span ng-if="row.paymentSingleFinalModel.final_cardNetwork != null"><strong>Card Network :</strong>{{row.paymentSingleFinalModel.final_cardNetwork}}</span>
 									</span>
 									<span >
-										<span ng-if="row.paymentSingleFinalModel.final_onlinePaymentMode != null" ><strong>Payment Mode :</strong>{{row.paymentSingleFinalModel.final_onlinePaymentMode}}###</span>
+										<br/>
+										<span ng-if="row.paymentSingleFinalModel.final_onlinePaymentMode != null" >
+										<br/>
+										<strong>Payment Mode :</strong>{{row.paymentSingleFinalModel.final_onlinePaymentMode}}###</span>
 										<span ng-if="row.paymentSingleFinalModel.final_onlineTransactionId != null"><strong>Transaction Id :</strong>{{row.paymentSingleFinalModel.final_onlineTransactionId}}###</span>
 										<span ng-if="row.paymentSingleFinalModel.final_onlineRemark != null"><strong>Remark :</strong>{{row.paymentSingleFinalModel.final_onlineRemark}}</span>
 									</span>
