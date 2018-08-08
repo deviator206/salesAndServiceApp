@@ -53,6 +53,10 @@ angular.module('salesApp.service_status', ['ngRoute'])
 	   $scope.statusSearchTextModel ="";
 	}
  
+ $scope.reloadPage = function(event){
+	 this.$close();
+ }
+ 
  
 	$scope.viewBill = function(obj) 
 	{
@@ -60,10 +64,12 @@ angular.module('salesApp.service_status', ['ngRoute'])
 		$scope.serviceResponse.repairReceiptId = obj.serviceNumber;
 		$scope.serviceRequest = obj;
 		if (obj.serviceStatus !== 'DTC') {
-			obj.receiptType = 'ESTIMATE'
+			$scope.receiptType = 'ESTIMATE'
+			$scope.receiptXtraName = "NAIK "
 		} else {
-			obj.receiptType = 'INVOICE'
+			$scope.receiptType = 'INVOICE'
 		}
+		
 		
 		Util.openPrintPopUp($scope, 'service-drop');
 	}

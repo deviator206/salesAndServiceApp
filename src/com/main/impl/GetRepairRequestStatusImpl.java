@@ -223,11 +223,11 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			
 			PaymentInfoModel paymentInfoModel = new PaymentInfoModel();
 			paymentInfoModel.setAdvancePayment(rs.getString(27));
-			if (rs.getString(28) != null){
+			if (rs.getString(28) != null && !rs.getString(27).isEmpty()){
 				totalIncome = totalIncome + rs.getInt(28); 
 				paymentInfoModel.setFinalAmount(rs.getString(28));
 				 
-			} else if(rs.getString(27) != null ) {
+			} else if(rs.getString(27) != null && !rs.getString(27).isEmpty()) {
 				onlyAdvanceIncome = onlyAdvanceIncome +Integer.parseInt(rs.getString(27));
 			}
 				

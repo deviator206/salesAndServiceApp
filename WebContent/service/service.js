@@ -4,7 +4,8 @@ angular.module('salesApp.service', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
                             'taxService', 'Util', 'Validation', 'customerService', 'pageMode', '$routeParams', '$timeout', 'customerSearchFactory' ,
 function($scope, $http, $modal, $log, customerSearch, productSearch, taxService, Util, Validation, customerService, pageMode, $routeParams, $timeout, customerSearchFactory) {
     console.log(pageMode);
-    $scope.receiptType = "ESTIMATE";    
+    $scope.receiptType = "ESTIMATE";  
+    $scope.pageStatus = 'INIT';
     $scope.receiptXtraName = "NAIK "
     $scope.pageMode = pageMode;    
     $scope.taxTypes = taxService.getTaxListService();
@@ -124,6 +125,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
 
         customerService.deliverProduct(postParam).then(function(response){
             $scope.serviceResponse = response.data;
+            $scope.pageStatus = 'COMPLETED';
             Util.openPrintPopUp($scope, 'service-drop');
         });
     }

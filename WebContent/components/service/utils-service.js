@@ -81,7 +81,8 @@ angular.module('salesApp.services.Util', ['ui.bootstrap'])
         modalInstance = $modal.open({
           template: '<print-modal-directive page="'+printPageTemplate+'"></print-modal-directive>',
           size: size || 'lg',
-          scope: modalScope
+          scope: modalScope,
+          backdrop:'static', keyboard:false
           }
         );
 
@@ -89,7 +90,7 @@ angular.module('salesApp.services.Util', ['ui.bootstrap'])
           //$scope.selected = selectedItem;
         }, function (a,b,c) {
         	//$log.info('Modal dismissed at: ' + new Date());
-          	window.location.reload();
+          	//window.location.reload();
         });
   };
 
