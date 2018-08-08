@@ -167,12 +167,16 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 			ps.setString(17, this.courierInfo.getString("courierPhone"));
 			ps.setString(18, this.courierInfo.getString("courierDocumentNo"));
 			ps.setString(19, this.userInfo.getString("id"));
-			String additionalCash = this.paymentInfo.getString("additional_cash");
 			int totalAdvancedPaid=0;
-			if (additionalCash != null) {
-				int partialAmount = Integer.parseInt(this.paymentInfo.getJSONObject(this.paymentInfo.getString("paymentType")).getString("amount"));
-				totalAdvancedPaid = partialAmount + Integer.parseInt(additionalCash);
+			if (this.paymentInfo.has("additional_cash")) {
+				String additionalCash = this.paymentInfo.getString("additional_cash");
+				
+				if (additionalCash != null) {
+					int partialAmount = Integer.parseInt(this.paymentInfo.getJSONObject(this.paymentInfo.getString("paymentType")).getString("amount"));
+					totalAdvancedPaid = partialAmount + Integer.parseInt(additionalCash);
+				}
 			}
+			
 			ps.setString(20,  new Integer(totalAdvancedPaid).toString());
 			if (this.estimatedObject.has("cost")) {
 				ps.setString(21, this.estimatedObject.getString("cost"));
@@ -227,13 +231,13 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 	        
 	    }
 	    newPaymentInfoInput.put("type", paymentType);
-
-	    String additionalCash = this.paymentInfo.getString("additional_cash");
 		int intAddtionalCash=0;
-		if (additionalCash != null && !additionalCash.isEmpty()) {
-			intAddtionalCash = Integer.parseInt(additionalCash);
-			
-		}
+	    if (this.paymentInfo.has("additional_cash")) {
+	    	String additionalCash = this.paymentInfo.getString("additional_cash");
+			if (additionalCash != null && !additionalCash.isEmpty()) {
+				intAddtionalCash = Integer.parseInt(additionalCash);
+			}
+	    }
 		newPaymentInfoInput.put("additional_cash",intAddtionalCash);
 		paymentDetailsImplInput.put(newPaymentInfoInput);
 		paymentDetailsImpl.setPaymentInfo(paymentDetailsImplInput);

@@ -36,7 +36,6 @@ public class GenerateInvoiceService {
 		SalesServiceResponse salesServiceResponse = new SalesServiceResponse();
 		salesServiceResponse.setStatus(false);
 		if (invoiceInformation.size() > 0){
-			System.out.println(invoiceInformation);
 			PaymentDetailsImpl paymentDetailsImpl = new PaymentDetailsImpl();
 			paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
 			

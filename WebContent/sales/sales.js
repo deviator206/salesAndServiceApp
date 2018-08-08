@@ -169,6 +169,10 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
         var payInfoPayLoad = angular.copy($scope.paymentInfo[$scope.paymentInfo.paymentType]);
             payInfoPayLoad.type = $scope.paymentInfo.paymentType;
             $scope.dateValue = $scope.salesDate.toDateString();
+            
+            if(!payInfoPayLoad.hasOwnProperty("additional_cash")) {
+            	payInfoPayLoad["additional_cash"] = 0;
+            }
         var payLoad = {
             paymentInfo:[payInfoPayLoad],
             customerInfo:angular.copy($scope.customerDetails),
