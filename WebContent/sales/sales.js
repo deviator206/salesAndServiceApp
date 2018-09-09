@@ -173,6 +173,10 @@ angular.module('salesApp.sales', ['ngRoute' , 'smart-table', 'ui.bootstrap'])
             if(!payInfoPayLoad.hasOwnProperty("additional_cash")) {
             	payInfoPayLoad["additional_cash"] = 0;
             }
+            
+            if ($scope.paymentInfo.hasOwnProperty("additional_cash")  && $scope.paymentInfo["additional_cash"] !== "") {
+            	payInfoPayLoad["additional_cash"] = parseFloat($scope.paymentInfo["additional_cash"]);
+            }
         var payLoad = {
             paymentInfo:[payInfoPayLoad],
             customerInfo:angular.copy($scope.customerDetails),

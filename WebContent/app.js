@@ -6,9 +6,10 @@ var salesApp = angular.module('salesApp', [
   'salesApp.view1',
   'salesApp.view2',
   'salesApp.sales',
+  'salesApp.salesReprint',
   'salesApp.repair',
   'salesApp.service',
-'salesApp.service_status',
+  'salesApp.service_status',
   'salesApp.report',
   'salesApp.version',
   'salesApp.date',
@@ -41,11 +42,14 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
         controller: 'ServiceCtrl',
         resolve: {pageMode: function() { return "SERVICE_PICKUP"; }}        
     }).
-  
-  when('/sales', {
-    templateUrl: 'sales/sales.html',
-    controller: 'SalesCtrl'
-  }).
+    when('/sales-reprint', {
+        templateUrl: 'sales/re-print/sales-reprint.html',
+        controller: 'SalesReprintCtrl'
+      }).
+      when('/sales', {
+	    templateUrl: 'sales/sales.html',
+	    controller: 'SalesCtrl'
+	  }).
   otherwise({redirectTo: '/sales'});
 }]);
 

@@ -1,15 +1,18 @@
 package com.main;
 
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jettison.json.JSONArray;
@@ -20,8 +23,12 @@ import com.main.impl.CreateNewSaleEntryServiceImpl;
 import com.main.impl.CreateProductServiceImpl;
 import com.main.impl.CustomerServiceImpl;
 import com.main.impl.GenerateInvoiceOnlyImpl;
+import com.main.impl.GetRepairRequestStatusImpl;
+import com.main.impl.GetSalesHistoryImpl;
 import com.main.impl.PaymentDetailsImpl;
+import com.main.models.SalesHistoryResponse;
 import com.main.models.SalesServiceResponse;
+import com.main.models.SearchRepairServiceResponse;
 
 @Path("/invoice/")
 public class GenerateInvoiceService {
@@ -105,6 +112,28 @@ public class GenerateInvoiceService {
 			System.out.println(e.getMessage());
 		}
 		return salesServiceResponse;
+	}
+	
+	@Path("sales-history")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public SalesHistoryResponse getSalesHistory(@QueryParam("query") String queryText,
+													   @QueryParam("col") String queryOnColumn,
+													   @QueryParam("type") String byType,
+													   @QueryParam("startFrom") String startFrom,
+													   @QueryParam("startTo") String startTo
+			) throws JSONException, InternalError, SQLException{
+		
+		GetSalesHistoryImpl getRepairRequestStatusImpl = new GetSalesHistoryImpl();
+		getRepairRequestStatusImpl.setQueryText(queryText);
+		getRepairRequestStatusImpl.setQueryOnColumn(queryOnColumn);
+		getRepairRequestStatusImpl.setByType(byType);
+		getRepairRequestStatusImpl.setStartFrom(startFrom);
+		getRepairRequestStatusImpl.setStartTo(startTo);
+		
+		
+		getRepairRequestStatusImpl.execute();
+		return getRepairRequestStatusImpl.getSearchResult();
 	}
 	
 	

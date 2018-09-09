@@ -103,7 +103,8 @@ angular.module('salesApp.services.Util', ['ui.bootstrap'])
                                         'service-deliver': 'components/modal/serviceDelivery.html',
                                         'sales-complete': 'components/modal/salesComplete.html',
                                         'service-complete': 'components/modal/serviceDelivery.html',
-                                        'tech-update': 'components/modal/techUpdate.html'
+                                        'tech-update': 'components/modal/techUpdate.html',	
+                                        'sales-re-print': 'components/modal/salesReprint.html',
         };
         
         if(pageTypeTemplateMapping[pageType] !== undefined){

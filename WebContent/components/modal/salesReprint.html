@@ -10,24 +10,24 @@
             <table class="table table-condensed no-border invoice-margin">
                 <tr>
                     <td class="col-xs-2"><span class="pull-left">Invoice</span> <span class="pull-right">:</span></td>
-                    <td class="col-xs-3">&nbsp; {{salesResponseData.invoiceId}}</td>
+                    <td class="col-xs-3">&nbsp; {{currentSelected.invoiceId}}</td>
                     <td class="col-xs-3"></td>
                     <td class="col-xs-1"><span class="pull-right">Date</span></td>
-                    <td class="col-xs-3"><span class="pull-left">:</span>&nbsp; <span>{{dateValue}}</span></td>
+                    <td class="col-xs-3"><span class="pull-left">:</span>&nbsp; <span>{{currentSelected.products[0].orderDate}}</span></td>
                 </tr>
                 <tr>
                     <td class="col-xs-2"><span class="pull-left">Customer</span> <span class="pull-right">:</span></td>
-                    <td class="col-xs-2">&nbsp; {{customerDetails.name}}</td>
+                    <td class="col-xs-2">&nbsp; {{currentSelected.customerInfo.name}}</td>
                     <td class="col-xs-4"></td>
                     <td class="col-xs-1"><span class="pull-right">Mobile</span></td>
                     <td class="col-xs-3"><span class="pull-left">:</span>&nbsp; 
-                    	<span>{{customerDetails.phone}}</span>
-                    	<span ng-if="customerDetails.alternateNo">Alternate : {{customerDetails.alternateNo}}</span>
+                    	<span>{{currentSelected.customerInfo.phone}}</span>
+                    	<span ng-if="currentSelected.customerInfo.alternateNo">Alternate : {{currentSelected.customerInfo.alternateNo}}</span>
                     </td>
                 </tr>
                 <tr>
-                    <td class="col-xs-2" ng-if="customerDetails.address" ><span class="pull-left">Address</span> <span class="pull-right">:</span></td>
-                    <td class="col-xs-10" ng-if="customerDetails.address" colspan="4">&nbsp; {{customerDetails.address}}</td>
+                    <td class="col-xs-2" ng-if="currentSelected.customerInfo.address" ><span class="pull-left">Address</span> <span class="pull-right">:</span></td>
+                    <td class="col-xs-10" ng-if="currentSelected.customerInfo.address" colspan="4">&nbsp; {{currentSelected.customerInfo.address}}</td>
                 </tr>
             </table>
         </div>
@@ -35,7 +35,7 @@
 
     <div class="row">
     	<div class="col-md-12">
-           <table st-table="selectedProducts" class="table table-bordered">
+           <table st-table="currentSelected.products" class="table table-bordered">
             <thead>
             <tr>
                 <th>S.No.</th>
@@ -50,7 +50,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="row in selectedProducts">
+            <tr ng-repeat="row in currentSelected.products">
                 <th>{{$index+1}}</th>
                 <td>{{row.name}} <span ng-if="(row.model != '')"><b>model :</b>{{row.model}}</span> </td>
                 <td>{{row.sn}}</td>
@@ -69,10 +69,10 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th><span class="pull-right">{{productTotal.totalPrice}}</span></th>
+                <th><span class="pull-right">{{currentSelected.products[0].totalPrice}}</span></th>
                 <!--<th></th>
                  <th><span class="pull-right">{{productTotal.taxAmmount}}</span></th> -->
-                <th><span class="pull-right">{{productTotal.grandTotal}}</span></th>
+                <th><span class="pull-right">{{currentSelected.products[0].grandTotal}}</span></th>
             </tr>
             </tfoot>
         </table>
@@ -83,7 +83,7 @@
         <div class="col-xs-12">
             <table class="table table-condensed no-border invoice-margin">
                 <tr>
-                    <td class="col-xs-2"><span class="pull-left"> <strong>GSTIN.</strong> {{salesResponseData.vatTinNumber}}</span></td>
+                    <td class="col-xs-2"><span class="pull-left"> <strong>GSTIN.</strong> {{currentSelected.invoiceTin}}</span></td>
                 </tr>
             </table> 
             <div ng-include="'components/template/paymentModeDisplay_new.html'"></div>
@@ -110,5 +110,5 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="printPage();">Print</button>
-    <button class="btn btn-warning" ng-click="reloadSalesPage()">Close</button>
+    <button class="btn btn-warning" ng-click="closeSalesPage()">Close</button>
 </div>

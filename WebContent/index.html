@@ -104,7 +104,6 @@ hr {
 	function mapHashChangeToMenuUpdate() {
 		var winHash = window.location.hash;
 		var activeElem = document.getElementsByClassName("top-menu");
-		console.log(activeElem);
 		if (activeElem.length > 0) {
 			for (var i = 0; i < activeElem.length; i++) {
 				activeElem[i].classList.remove('active');
@@ -113,6 +112,11 @@ hr {
 
 		console.log(winHash);
 		switch (winHash) {
+		case "#!//sales-reprint":
+
+			document.getElementById('sales-reprint-top-menu').classList
+					.add('active');
+			break;
 		case "#!/sales":
 			document.getElementById('sales-top-menu').classList.add('active');
 			break;
@@ -134,10 +138,16 @@ hr {
 			document.getElementById('repair-report-top-menu').classList
 					.add('active');
 			break;
+		
 
 		}// switch
 		
 		//dynamic URL checking
+		if (winHash.indexOf('#!/sales-reprint') !== -1) {
+			document.getElementById('sales-reprint-top-menu').classList
+					.add('active');
+		}
+		
 
 		if (winHash.indexOf('#!/service-pickup-final') !== -1) {
 			document.getElementById('repair-pickup-top-menu').classList
@@ -153,6 +163,9 @@ hr {
 			document.getElementById('repair-report-top-menu').classList
 					.add('active');
 		}
+		
+		
+		
 		
 		
 
@@ -187,6 +200,11 @@ hr {
 							ng-class="{active: isActive('/repair-report')}"
 							id="repair-report-top-menu"><a href="#!/repair-report">Service
 								Reports</a></li>
+								
+								<li class="top-menu"
+							ng-class="{active: isActive('/sales-reprint')}"
+							id="sales-reprint-top-menu"><a href="#!/sales-reprint">Sales Re-Print
+								</a></li>
 					</ul>
 					<!-- 
                 <ul class="nav navbar-nav navbar-right">
@@ -233,6 +251,7 @@ hr {
 	<script src="view1/view1.js"></script>
 	<script src="view2/view2.js"></script>
 	<script src="sales/sales.js"></script>
+	<script src="sales/re-print/salesReprint.js"></script>
 	<script src="repair/repair.js"></script>
 	<script src="service/service.js"></script>
 	<script src="service-pickup/service-pickup.js"></script>
