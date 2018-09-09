@@ -168,13 +168,16 @@ public class CreateRepairRequestServiceImpl extends ServiceBase {
 			ps.setString(18, this.courierInfo.getString("courierDocumentNo"));
 			ps.setString(19, this.userInfo.getString("id"));
 			int totalAdvancedPaid=0;
+			int partialAmount = Integer.parseInt(this.paymentInfo.getJSONObject(this.paymentInfo.getString("paymentType")).getString("amount"));
+			totalAdvancedPaid = partialAmount;
+			
 			if (this.paymentInfo.has("additional_cash")) {
 				String additionalCash = this.paymentInfo.getString("additional_cash");
 				
 				if (additionalCash != null) {
-					int partialAmount = Integer.parseInt(this.paymentInfo.getJSONObject(this.paymentInfo.getString("paymentType")).getString("amount"));
+					partialAmount = Integer.parseInt(this.paymentInfo.getJSONObject(this.paymentInfo.getString("paymentType")).getString("amount"));
 					totalAdvancedPaid = partialAmount + Integer.parseInt(additionalCash);
-				}
+				} 
 			}
 			
 			ps.setString(20,  new Integer(totalAdvancedPaid).toString());

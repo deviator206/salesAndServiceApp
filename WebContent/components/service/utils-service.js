@@ -96,7 +96,9 @@ angular.module('salesApp.services.Util', ['ui.bootstrap'])
 
     this.getPrintPage = function(pageType){
         var printPageTemplate = 'components/modal/nothingSelected.html';
-        var pageTypeTemplateMapping = { 'service-drop':'components/modal/serviceDrop.html',
+        var pageTypeTemplateMapping = { 
+        								'service-drop-maybe':'components/modal/serviceDrop_status.html',
+        								'service-drop':'components/modal/serviceDrop.html',
                                         'service-drop': 'components/modal/serviceDrop.html',
                                         'service-deliver': 'components/modal/serviceDelivery.html',
                                         'sales-complete': 'components/modal/salesComplete.html',

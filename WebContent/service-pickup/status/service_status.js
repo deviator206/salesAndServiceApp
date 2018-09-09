@@ -60,18 +60,47 @@ angular.module('salesApp.service_status', ['ngRoute'])
  
 	$scope.viewBill = function(obj) 
 	{
+		if (obj.advancePayment) {
+			if(obj.paymentSingleModel && !obj.paymentSingleModel.paymentType) {
+				obj.paymentInfo['paymentType'] = 'cash';
+				obj.paymentInfo['cash'] = {
+						amount:obj.advancePayment
+				};
+			}
+			
+		}
+		
 		$scope.serviceResponse = obj;
 		$scope.serviceResponse.repairReceiptId = obj.serviceNumber;
 		$scope.serviceRequest = obj;
+		$scope.paymentInfo = obj.paymentInfo;
+		if ($scope.serviceRequest && $scope.serviceRequest.accessoryList && typeof $scope.serviceRequest.accessoryList === 'string') {
+		    // this is a string
+			$scope.serviceRequest.accessoryList = $scope.serviceRequest.accessoryList.split(",");
+		}
+		
+		if ($scope.serviceRequest && $scope.serviceRequest.problemLists && typeof $scope.serviceRequest.problemLists === 'string') {
+		    // this is a string
+			$scope.serviceRequest.problemLists = $scope.serviceRequest.problemLists.split(",");
+		}
+		
+		if ($scope.serviceRequest && $scope.serviceRequest.problemList && typeof $scope.serviceRequest.problemList === 'string') {
+		    // this is a string
+			$scope.serviceRequest.problemLists = $scope.serviceRequest.problemList.split(",");
+		}
+		
+		
+		
+		// $scope.serviceRequest.problemLists = $scope.serviceRequest.problemLists.split(",");
 		if (obj.serviceStatus !== 'DTC') {
 			$scope.receiptType = 'ESTIMATE'
-			$scope.receiptXtraName = "NAIK "
+			// $scope.receiptXtraName = "NAIK "
 		} else {
 			$scope.receiptType = 'INVOICE'
 		}
 		
 		
-		Util.openPrintPopUp($scope, 'service-drop');
+		Util.openPrintPopUp($scope, 'service-drop-maybe');
 	}
  $scope.statusSearchTextAsPerFilterOption = function(){
 	 var obj = {};

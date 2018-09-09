@@ -35,108 +35,74 @@ public class GenerateInvoiceService {
 		HashMap<String, String> invoiceInformation = generateInvoiceOnlyImpl.getNewInvoice();
 		SalesServiceResponse salesServiceResponse = new SalesServiceResponse();
 		salesServiceResponse.setStatus(false);
-		if (invoiceInformation.size() > 0){
-			PaymentDetailsImpl paymentDetailsImpl = new PaymentDetailsImpl();
-			paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
-			
-			paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONArray("paymentInfo"));
-			salesServiceResponse = paymentDetailsImpl.updatePaymentDetails();
-			if (salesServiceResponse.getStatus()){
+		try {
+			if (invoiceInformation.size() > 0){
+				PaymentDetailsImpl paymentDetailsImpl = new PaymentDetailsImpl();
+				paymentDetailsImpl.setInvoiceInfo(invoiceInformation);
 				
-				JSONObject customerInformation = orderInfo.getJSONObject("customerInfo");
-				int customerValidID ;
-				if (customerInformation.getString("id") != null && !customerInformation.getString("id").equals("")){
+				paymentDetailsImpl.setPaymentInfo(orderInfo.getJSONArray("paymentInfo"));
+				salesServiceResponse = paymentDetailsImpl.updatePaymentDetails();
+				if (salesServiceResponse.getStatus()){
 					
-					//CUSTOMER EXIST
-					// add it to table 
-					//preseve this customer Id to use it for later case
-					customerValidID = Integer.parseInt(customerInformation.getString("id"));
-					
-					CustomerServiceImpl customerServiceUpdateImpl = new CustomerServiceImpl();
-					customerServiceUpdateImpl.setUserName(customerInformation.getString("name"));
-					customerServiceUpdateImpl.setUserAddress(customerInformation.getString("address"));
-					customerServiceUpdateImpl.setUserPhone(customerInformation.getString("phone"));
-					customerServiceUpdateImpl.setUserID(customerValidID);
-					customerServiceUpdateImpl.executeUpdateCustomer();
-					
-				} else {
-					// NEW CUSTOMER
-					CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
-					customerServiceImpl.setUserName(customerInformation.getString("name"));
-					customerServiceImpl.setUserAddress(customerInformation.getString("address"));
-					customerServiceImpl.setUserPhone(customerInformation.getString("phone"));
-					customerServiceImpl.execute();
-					customerValidID=  customerServiceImpl.getCustomerCreationResponse().getId();
-				}
-				
-				
-				JSONArray productList = orderInfo.getJSONArray("productInfo");
-				for (int j =0;j<productList.length();j++){
-					JSONObject productInfo = productList.getJSONObject(j);
-					CreateNewSaleEntryServiceImpl createNewSaleEntryServiceImpl =  new CreateNewSaleEntryServiceImpl();
-					if (productInfo.getString("id") != null && !productInfo.getString("id").equals("")){
-						createNewSaleEntryServiceImpl.setProductId(productInfo.getString("id"));
-					}else {
-						JSONArray newProductList = new JSONArray();
-						productInfo.put("isNew", true);
-						newProductList.put(productInfo);
-						CreateProductServiceImpl createProductServiceImpl =  new CreateProductServiceImpl();
-						createProductServiceImpl.setProductList(newProductList);
-						createProductServiceImpl.executeCreation();
+					JSONObject customerInformation = orderInfo.getJSONObject("customerInfo");
+					int customerValidID ;
+					if (customerInformation.getString("id") != null && !customerInformation.getString("id").equals("")){
 						
-						createNewSaleEntryServiceImpl.setProductId(createProductServiceImpl.getResponse().getCreatedProductList().get(0));
+						//CUSTOMER EXIST
+						// add it to table 
+						//preseve this customer Id to use it for later case
+						customerValidID = Integer.parseInt(customerInformation.getString("id"));
+						
+						CustomerServiceImpl customerServiceUpdateImpl = new CustomerServiceImpl();
+						customerServiceUpdateImpl.setUserName(customerInformation.getString("name"));
+						customerServiceUpdateImpl.setUserAddress(customerInformation.getString("address"));
+						customerServiceUpdateImpl.setUserPhone(customerInformation.getString("phone"));
+						customerServiceUpdateImpl.setUserID(customerValidID);
+						customerServiceUpdateImpl.executeUpdateCustomer();
+						
+					} else {
+						// NEW CUSTOMER
+						CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
+						customerServiceImpl.setUserName(customerInformation.getString("name"));
+						customerServiceImpl.setUserAddress(customerInformation.getString("address"));
+						customerServiceImpl.setUserPhone(customerInformation.getString("phone"));
+						customerServiceImpl.execute();
+						customerValidID=  customerServiceImpl.getCustomerCreationResponse().getId();
 					}
-					createNewSaleEntryServiceImpl.setCustomerId(customerValidID);
-					createNewSaleEntryServiceImpl.setOrderDate(Timestamp.valueOf(productInfo.getString("orderDate")));
-					createNewSaleEntryServiceImpl.setInvoiceInformation(invoiceInformation.get("invoice"),invoiceInformation.get("vatTinNumber"));
-					createNewSaleEntryServiceImpl.setQuantityInfo(productInfo.getLong("quantity"),productInfo.getLong("price"),productInfo.getLong("totalPrice"));
-					createNewSaleEntryServiceImpl.setTaxInformation(productInfo.getString("taxType"),productInfo.getLong("taxValue"),productInfo.getLong("taxAmmount"),productInfo.getString("taxRate"));
-					createNewSaleEntryServiceImpl.setGrandTotal(productInfo.getLong("grandTotal"));
-					createNewSaleEntryServiceImpl.executeExistingProduct();
-				}
-				
-				
-				/*
-				 * 
-				 *
-				JSONArray newProductList = new JSONArray();
-				List<String> oldProductIdList = new ArrayList();
-				for (int j =0;j<productList.length();j++){
-					JSONObject productInfo = productList.getJSONObject(j);
-					if (productInfo.getString("id") != null && !productInfo.getString("id").equals("")){
-						// existing product
-						oldProductIdList.add(productInfo.getString("id"));
-					}else {
-						//new product
-						productInfo.put("isNew", true);
-						newProductList.put(productInfo);
+					
+					
+					JSONArray productList = orderInfo.getJSONArray("productInfo");
+					for (int j =0;j<productList.length();j++){
+						JSONObject productInfo = productList.getJSONObject(j);
+						CreateNewSaleEntryServiceImpl createNewSaleEntryServiceImpl =  new CreateNewSaleEntryServiceImpl();
+						if (productInfo.getString("id") != null && !productInfo.getString("id").equals("")){
+							createNewSaleEntryServiceImpl.setProductId(productInfo.getString("id"));
+						}else {
+							JSONArray newProductList = new JSONArray();
+							productInfo.put("isNew", true);
+							newProductList.put(productInfo);
+							CreateProductServiceImpl createProductServiceImpl =  new CreateProductServiceImpl();
+							createProductServiceImpl.setProductList(newProductList);
+							createProductServiceImpl.executeCreation();
+							
+							createNewSaleEntryServiceImpl.setProductId(createProductServiceImpl.getResponse().getCreatedProductList().get(0));
+						}
+						createNewSaleEntryServiceImpl.setCustomerId(customerValidID);
+						createNewSaleEntryServiceImpl.setOrderDate(Timestamp.valueOf(productInfo.getString("orderDate")));
+						createNewSaleEntryServiceImpl.setInvoiceInformation(invoiceInformation.get("invoice"),invoiceInformation.get("vatTinNumber"));
+						createNewSaleEntryServiceImpl.setQuantityInfo(productInfo.getLong("quantity"),productInfo.getLong("price"),productInfo.getLong("totalPrice"));
+						createNewSaleEntryServiceImpl.setTaxInformation(productInfo.getString("taxType"),productInfo.getLong("taxValue"),productInfo.getLong("taxAmmount"),productInfo.getString("taxRate"));
+						createNewSaleEntryServiceImpl.setGrandTotal(productInfo.getLong("grandTotal"));
+						createNewSaleEntryServiceImpl.executeExistingProduct();
 					}
+					salesServiceResponse.setInvoiceId(invoiceInformation.get("invoice"));
+					salesServiceResponse.setVatTinNumber(invoiceInformation.get("vatTinNumber"));
 				}
-				
-				List<String> newList = new ArrayList<String>(oldProductIdList);
-				
-				
-				if(newProductList.length() > 0) {
-					//create ProductList for new products
-					CreateProductServiceImpl createProductServiceImpl =  new CreateProductServiceImpl();
-					createProductServiceImpl.setProductList(newProductList);
-					createProductServiceImpl.executeCreation();
-					salesServiceResponse.setProductServiceResponse(createProductServiceImpl.getResponse().getCreatedProductList());
-					newList.addAll(salesServiceResponse.getProductServiceResponse());
-				}
-				
-				*/
-				
-				
-				
-				salesServiceResponse.setInvoiceId(invoiceInformation.get("invoice"));
-				salesServiceResponse.setVatTinNumber(invoiceInformation.get("vatTinNumber"));
-			
-				
-				
-				
-				
 			}
+			
+		} catch (Exception e) {
+			generateInvoiceOnlyImpl.deleteInvoice(invoiceInformation.get("invoice"));
+			System.out.println(e.getMessage());
 		}
 		return salesServiceResponse;
 	}
