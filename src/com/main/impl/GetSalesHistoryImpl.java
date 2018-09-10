@@ -63,10 +63,10 @@ public class GetSalesHistoryImpl extends ServiceBase{
 		if(!this.byType.isEmpty() && this.byType.equalsIgnoreCase("BY_QUERY")) {
 			switch(this.queryOnColumn.toUpperCase()) {
 			case "CUSTOMER_NAME" :
-				query = "select * from emp_customer_table t1 inner join sales_order_table t2 on t1.id = t2.customer_id inner join emp_product_table t3 on t2.product_id = t3.id inner join payment_details_table t4 on t2.invoice_id = t4.invoice_id  where t1.name like'%"+this.queryText +"%' ";
+				query = "select * from emp_customer_table t1 inner join sales_order_table t2 on t1.id = t2.customer_id inner join emp_product_table t3 on t2.product_id = t3.id inner join payment_details_table t4 on t2.invoice_id = t4.invoice_id  where t1.name like'%"+this.queryText +"%' order by t2.sale_id DESC ";
 				break;
 			case "CUSTOMER_PHONE" :
-				query = "select * from emp_customer_table t1 inner join sales_order_table t2 on t1.id = t2.customer_id inner join emp_product_table t3 on t2.product_id = t3.id inner join payment_details_table t4 on t2.invoice_id = t4.invoice_id  where  t1.phone like'%"+this.queryText +"%' or t1.alternate_number like '%"+this.queryText +"%' ";
+				query = "select * from emp_customer_table t1 inner join sales_order_table t2 on t1.id = t2.customer_id inner join emp_product_table t3 on t2.product_id = t3.id inner join payment_details_table t4 on t2.invoice_id = t4.invoice_id  where  t1.phone like'%"+this.queryText +"%' or t1.alternate_number like '%"+this.queryText +"%' order by t2.sale_id DESC ";
 				break;
 /*			case "SERIAL_NUMBER" :
 				break;
@@ -74,7 +74,7 @@ public class GetSalesHistoryImpl extends ServiceBase{
 				break;
 	*/
 				case "INVOICE_ID":
-				query = "select * from emp_customer_table t1 inner join sales_order_table t2 on t1.id = t2.customer_id inner join emp_product_table t3 on t2.product_id = t3.id inner join payment_details_table t4 on t2.invoice_id = t4.invoice_id  where   t2.invoice_id like'%"+this.queryText +"%' ";
+				query = "select * from emp_customer_table t1 inner join sales_order_table t2 on t1.id = t2.customer_id inner join emp_product_table t3 on t2.product_id = t3.id inner join payment_details_table t4 on t2.invoice_id = t4.invoice_id  where   t2.invoice_id like'%"+this.queryText +"%' order by t2.sale_id DESC ";
 				break;
 			default :
 				break;
@@ -108,24 +108,24 @@ public class GetSalesHistoryImpl extends ServiceBase{
 				paymentInfo.setBankName(resultSet.getString("final_bankName"));
 				paymentInfo.setCardBank( resultSet.getString("final_bankName"));
 				paymentInfo.setExpDate(resultSet.getString("cardExpiryDate"));
-				if( resultSet.getString("final_amount") != null) {
-					paymentInfo.setAdditional_cash( resultSet.getString("final_cash"));
+				if( resultSet.getString("cash") != null) {
+					paymentInfo.setAdditional_cash( resultSet.getString("cash"));
 				}
-			} else if (resultSet.getString("final_cheqNo") != null || resultSet.getString("final_cheqDate") != null) {
+			} else if (resultSet.getString("cheqNo") != null || resultSet.getString("cheqDate") != null) {
 				paymentInfo.setType("cheq");
-				paymentInfo.setCheqDate(resultSet.getString("final_cheqDate"));
-				paymentInfo.setCheqNo( resultSet.getString("final_cheqNo"));
-				paymentInfo.setBankName(resultSet.getString("final_bankName"));
-				if( resultSet.getString("final_amount") != null) {
-					paymentInfo.setAdditional_cash( resultSet.getString("final_cash"));
+				paymentInfo.setCheqDate(resultSet.getString("cheqDate"));
+				paymentInfo.setCheqNo( resultSet.getString("cheqNo"));
+				paymentInfo.setBankName(resultSet.getString("bankName"));
+				if( resultSet.getString("cash") != null) {
+					paymentInfo.setAdditional_cash( resultSet.getString("cash"));
 				}
-			} else if (resultSet.getString("final_onlinePaymentMode") != null || resultSet.getString("final_onlineTransactionId") != null) {
+			} else if (resultSet.getString("onlinePaymentMode") != null || resultSet.getString("onlineTransactionId") != null) {
 				paymentInfo.setType("online");
-				paymentInfo.setPayMode(resultSet.getString("final_onlinePaymentMode"));
-				paymentInfo.setTransactionId(resultSet.getString("final_onlineTransactionId"));
-				paymentInfo.setRemark(resultSet.getString("final_onlineRemark"));
-				if( resultSet.getString("final_amount") != null) {
-					paymentInfo.setAdditional_cash( resultSet.getString("final_cash"));
+				paymentInfo.setPayMode(resultSet.getString("onlinePaymentMode"));
+				paymentInfo.setTransactionId(resultSet.getString("onlineTransactionId"));
+				paymentInfo.setRemark(resultSet.getString("onlineRemark"));
+				if( resultSet.getString("cash") != null) {
+					paymentInfo.setAdditional_cash( resultSet.getString("cash"));
 				}
 			} else {
 				paymentInfo.setType("cash");
