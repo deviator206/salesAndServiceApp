@@ -197,6 +197,15 @@ public class RepairRequestResponse extends MainResponse {
 	private CourierInfoModel outwardCourierInfo;
 	private CustomerServiceResponse customerInfo;
 	private PaymentInfoModel paymentInfo;
+	private EstimationInfoModel estimation;
+	public EstimationInfoModel getEstimation() {
+		return estimation;
+	}
+
+	public void setEstimation(EstimationInfoModel estimation) {
+		this.estimation = estimation;
+	}
+
 	private List<ProductInfoModel> productInfo;
 	private UserInfo userInfo;
 

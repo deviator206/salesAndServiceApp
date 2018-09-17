@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="components/modal/printHeaderCss.css">
 <div class="modal-header">
-    <h3 class="modal-title">Service Receipt ---11</h3>
+    <h3 class="modal-title">Service Receipt</h3>
 </div>
 <div class="modal-body">
 <div class="container invoice-modal-full" id="invoice-modal-full-123">
@@ -10,8 +10,8 @@
             <table class="table table-condensed no-border invoice-margin">
                 <tr>
                     <td style="width:16%"><span class="pull-left" ng-if="receiptType === 'ESTIMATE' ">Estimate</span><span class="pull-left" ng-if="receiptType !== 'ESTIMATE' ">Invoice</span> <span class="pull-right">:</span></td>
-                    <td style="width:16%">&nbsp; {{serviceResponse.repairReceiptId}}</td>
-                    <td style="width:32%"></td>
+                    <td style="width:26%">&nbsp; {{serviceResponse.repairReceiptId}}</td>
+                    <td style="width:22%"></td>
                     <td style="width:8%"><span class="pull-right">Date</span></td>
                     <td style="width:24%"><span class="pull-left">:</span>&nbsp; <span>{{serviceRequest.serviceDate}}</span></td>
                 </tr>
@@ -59,8 +59,8 @@
 
     <table class="table table-condensed table-bordered invoice-margin">
         <tr>
-            <th style="width:50%">Accessries Details</th>
-            <th style="width:50%">Compalints Found</th>
+             <th style="width:50%">Accessories Details</th>
+            <th style="width:50%">Complaints Found</th>
             
         </tr>
         <tr>

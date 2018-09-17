@@ -12,6 +12,7 @@ import org.codehaus.jettison.json.JSONException;
 import com.main.models.CommentsInfoModel;
 import com.main.models.CourierInfoModel;
 import com.main.models.CustomerServiceResponse;
+import com.main.models.EstimationInfoModel;
 import com.main.models.PaymentInfoModel;
 import com.main.models.PaymentSingleFinalModel;
 import com.main.models.PaymentSingleModel;
@@ -190,6 +191,17 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 			outwardCourierInfo.setCourierName(rs.getString(42));
 			outwardCourierInfo.setCourierDocumentNo(rs.getString(44));
 			repairServiceResponse.setOutwardCourierInfo(outwardCourierInfo);
+			
+			EstimationInfoModel estimation = new EstimationInfoModel();
+			if( rs.getString("estimated_delivery_cost") != null) 
+			{
+				estimation.setCost( rs.getString("estimated_delivery_cost"));
+			}
+			if( rs.getString("estimated_delivery_date") != null) 
+			{
+				estimation.setDate( rs.getString("estimated_delivery_date"));
+			}
+			repairServiceResponse.setEstimation(estimation);
 			
 			
 			CommentsInfoModel commentInfo = new CommentsInfoModel();

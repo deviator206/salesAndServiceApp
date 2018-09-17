@@ -92,6 +92,7 @@ angular.module('salesApp.service_status', ['ngRoute'])
 		
 		
 		// $scope.serviceRequest.problemLists = $scope.serviceRequest.problemLists.split(",");
+		$scope.receiptXtraName = "NAIK "
 		if (obj.serviceStatus !== 'DTC') {
 			$scope.receiptType = 'ESTIMATE'
 			// $scope.receiptXtraName = "NAIK "
