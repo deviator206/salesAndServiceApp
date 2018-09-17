@@ -61,7 +61,7 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         //console.log($routeParams);
     	$scope.receiptXtraName = "NAIK "
         $scope.receiptType = "RECEIPT";   
-    	$scope.serviceFinalDeliveryDate = new Date();
+    	//$scope.serviceFinalDeliveryDate = new Date();
         mapHashChangeToMenuUpdate();
         var requestParams = {};
         if($routeParams.serviceId !==undefined){
@@ -118,7 +118,12 @@ function($scope, $http, $modal, $log, customerSearch, productSearch, taxService,
         if($scope.serviceRequest.courierOutwardInfo.courierName !== "" || $scope.serviceRequest.courierOutwardInfo.courierDocumentNo !== ""  ||$scope.serviceRequest.courierOutwardInfo.courierPhone !== ""  ) {
         	$scope.serviceRequest.courierOutwardInfo.isCourier = true;
         }
-        $scope.serviceRequest.finalDeliveryDate = Util.jsDateConversionFunction($scope.serviceFinalDeliveryDate);
+        
+        var deliveryDateTemp = (document.getElementById("delivert-estimated-date").value).split("-");
+        if (deliveryDateTemp.length > 0) {
+        	$scope.serviceRequest.finalDeliveryDate = Util.jsDateConversionFunction(new Date(deliveryDateTemp[0],parseInt(deliveryDateTemp[1])-1,deliveryDateTemp[2]));
+        }
+        
         
         $scope.serviceRequest.paymentInfo = angular.copy($scope.paymentInfo);
         var postParam = angular.copy($scope.serviceRequest);

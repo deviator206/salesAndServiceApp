@@ -97,9 +97,10 @@ angular.module('salesApp.service_status', ['ngRoute'])
 			$scope.receiptType = 'ESTIMATE'
 			// $scope.receiptXtraName = "NAIK "
 		} else {
-			$scope.receiptType = 'INVOICE'
+			$scope.receiptType = 'RECEIPT'
 		}
-		
+		// final delivery date
+		$scope.serviceRequest.finalDeliveryDate = obj.deliveredToCustomerDate;
 		
 		Util.openPrintPopUp($scope, 'service-drop-maybe');
 	}
