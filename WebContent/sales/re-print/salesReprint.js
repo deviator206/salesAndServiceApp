@@ -120,6 +120,23 @@ angular
 									
 
 								}
+								
+								
+								$scope.productTotal = {
+						            taxAmmount:0,
+						            totalPrice:0,
+						            grandTotal:0,
+						            totalItems:0
+						        }
+								
+								 for(var i=0; i<obj.products.length; i++){
+						                $scope.productTotal.taxAmmount += Util.toDecimalPrecision(obj.products[i].taxAmmount);
+						                $scope.productTotal.totalPrice += Util.toDecimalPrecision(obj.products[i].totalPrice);
+						                $scope.productTotal.grandTotal += Util.toDecimalPrecision(obj.products[i].grandTotal);
+						                $scope.productTotal.totalItems += Util.toDecimalPrecision(obj.products[i].quantity);
+						            }
+								 
+								 
 								$scope.paymentInfo.additional_cash = obj.paymentInfo.additional_cash;
 								$scope.paymentInfo.paymentType = obj.paymentInfo.type;
 									
