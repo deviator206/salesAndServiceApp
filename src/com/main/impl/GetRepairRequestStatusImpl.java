@@ -34,6 +34,15 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 	private int totalIncome = 0;
 	private int onlyAdvanceIncome= 0;
 	private boolean serviceMode = false;
+	private boolean manipulatePayment = false;
+
+	public boolean isManipulatePayment() {
+		return manipulatePayment;
+	}
+
+	public void setManipulatePayment(boolean manipulatePayment) {
+		this.manipulatePayment = manipulatePayment;
+	}
 
 	public GetRepairRequestStatusImpl() {
 		this.queryOnColumn = "";
@@ -275,6 +284,11 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 				
 			}
 			
+			if(this.manipulatePayment) {
+				// indicates that status is being invoked for 
+				// re-printing the information - VIEW should understand only singlePaymentInfo
+			}
+			
 			repairServiceResponse.setPaymentSingleModel(paymentSingleModel);
 			repairServiceResponse.setPaymentSingleFinalModel(paymentSingleFinalModel);
 			
@@ -384,7 +398,6 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl {
 				customerInfo.setName(rs1.getString(2));
 				customerInfo.setAddress(rs1.getString(3));
 				customerInfo.setPhone( rs1.getString(4));
-				 System.out.println(" Looping for "+customerId+" : ###"+customerInfo.getName());
 				this.triggerSearch(customerInfo,customerId);
 			}
 		} else {

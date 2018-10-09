@@ -81,6 +81,16 @@ angular
 							$scope.closeSalesPage = function () {
 								this.$close();
 							}
+							
+							$scope.getSummationAmount = function(obj) {
+								var total1 = parseFloat(obj.amount,10);
+								var total2 =0;
+								if (obj.additional_cash !== null){
+									total2 = parseFloat(obj.additional_cash,10);
+								}
+								
+								return (total1 + total2);
+							}
 							$scope.viewBill = function(obj) {
 								$scope.currentSelected= obj;
 								$scope.paymentInfo = {};

@@ -144,6 +144,7 @@ public class GetSalesHistoryImpl extends ServiceBase{
 			productInfo.setTaxValue(resultSet.getString("tax_value"));
 			productInfo.setGrandTotal(resultSet.getString("total_amount"));
 			productInfo.setTaxRate(resultSet.getString("tax_rate"));
+			productInfo.setTotalPrice(resultSet.getString("product_price_with_qty"));
 			productInfo.setOrderDate(resultSet.getString("order_date"));
 			
 			List<ProductInfo> productInfoList = new ArrayList<>();

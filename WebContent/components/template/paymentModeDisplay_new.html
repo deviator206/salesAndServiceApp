@@ -17,7 +17,7 @@
 	    </td>
 	</tr>
 	<tr/>
-	<tr ng-if="paymentInfo.additional_cash && paymentInfo.additional_cash !== ''">
+	<tr ng-if="paymentInfo.additional_cash && (paymentInfo.additional_cash !== '' && paymentInfo.additional_cash !== '0.0')">
 		<td ng-if="paymentInfo.additional_cash != '0'" class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; Some Amount By CASH :{{paymentInfo.additional_cash +" INR"}}</td>
 	</tr>
 </table>
@@ -30,12 +30,12 @@
 	<tr>
 	    <td>
 	    	<span  ng-if="paymentInfo.card.cardNumber!== ''" ><strong >Card No</strong>:{{paymentInfo.card.cardNumber}} |</span>
-	    	<span ng-if="paymentInfo.card.cardBank !== ''" ><strong> Bank</strong>: {{paymentInfo.card.cardBank}} |</span>
+	    	<!-- <span ng-if="paymentInfo.card.cardBank !== ''" ><strong> Bank</strong>: {{paymentInfo.card.cardBank}} |</span> -->	
 	    	<span ng-if="paymentInfo.card.cardNetwork !== ''"  ><strong> Card Network</strong>:{{paymentInfo.card.cardNetwork}} </span>
 	    </td>
 	</tr>
 	<tr/>
-	<tr ng-if="paymentInfo.additional_cash && paymentInfo.additional_cash !== ''">
+	<tr ng-if="paymentInfo.additional_cash &&  (paymentInfo.additional_cash !== '' && paymentInfo.additional_cash !== '0.0')">
 		<td ng-if="paymentInfo.additional_cash != '0'"  class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; Some Amount By  CASH :{{paymentInfo.additional_cash +" INR"}}</td>
 	</tr>
 </table>
@@ -52,7 +52,7 @@
 	    </td>
 	</tr>
 	<tr/>
-	<tr ng-if="paymentInfo.additional_cash && paymentInfo.additional_cash !== ''">
+	<tr ng-if="paymentInfo.additional_cash &&  (paymentInfo.additional_cash !== '' && paymentInfo.additional_cash !== '0.0')">
 		<td ng-if="paymentInfo.additional_cash != '0'"  class="col-xs-6"><strong >Payment Mode</strong>:&nbsp; Some Amount By CASH :{{paymentInfo.additional_cash +" INR"}}</td>
 	</tr>
 </table>
