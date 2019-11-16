@@ -1,61 +1,70 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   LoginServiceImpl.java
+
 package com.main.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import com.main.models.LoginResponse;
+import java.io.PrintStream;
+import java.sql.*;
 
-public class LoginServiceImpl extends ServiceBase{
-	
-	private String userName ;
-	private String userPassword ;
-	private String LOGIN_TABLE = "validemporiumuser";
-	private String COL_USER_NAME ="empName";
-	private String COL_USER_PASSWORD="empPassword";
-	
-	private LoginResponse loginResponse;
-	
-	public LoginServiceImpl(){
-		
-	}
+// Referenced classes of package com.main.impl:
+//            ServiceBase
 
-	public void setUserName(String str) {
-		this.userName = str; 
-	}
+public class LoginServiceImpl extends ServiceBase
+{
 
-	public void setUserPassword(String str) {
-		this.userPassword= str;
-		
-	}
+    public LoginServiceImpl()
+    {
+        LOGIN_TABLE = "validemporiumuser";
+        COL_USER_NAME = "empName";
+        COL_USER_PASSWORD = "empPassword";
+    }
 
-	public void execute() {
-		this.getConnection();
-		Statement stmt;
-		loginResponse = new LoginResponse();
-		try {
-			loginResponse.setStatus(false);
-			stmt = this.dbConnection.createStatement();
-			ResultSet rs=stmt.executeQuery("select * from "+LOGIN_TABLE+" where "+this.COL_USER_NAME+"='"+this.userName+"' AND "+this.COL_USER_PASSWORD+"='"+this.userPassword+"'");  
-			while(rs.next()) {
-				loginResponse.setStatus(true);
-				loginResponse.setId(rs.getInt(1));
-				loginResponse.setUserName(rs.getString(2));
-				loginResponse.setRole(rs.getString(4));
-				System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-			}
-			this.dbConnection.close();  
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-		
-	}
+    public void setUserName(String str)
+    {
+        userName = str;
+    }
 
-	public LoginResponse getLoginResponse() {
-		return this.loginResponse;
-	}
+    public void setUserPassword(String str)
+    {
+        userPassword = str;
+    }
 
-	
+    public void execute()
+    {
+        getConnection();
+        loginResponse = new LoginResponse();
+        try
+        {
+            loginResponse.setStatus(false);
+            Statement stmt = dbConnection.createStatement();
+            for(ResultSet rs = stmt.executeQuery((new StringBuilder()).append("select * from ").append(LOGIN_TABLE).append(" where ").append(COL_USER_NAME).append("='").append(userName).append("' AND ").append(COL_USER_PASSWORD).append("='").append(userPassword).append("'").toString()); rs.next(); System.out.println((new StringBuilder()).append(rs.getInt(1)).append("  ").append(rs.getString(2)).append("  ").append(rs.getString(3)).toString()))
+            {
+                loginResponse.setStatus(true);
+                loginResponse.setId(rs.getInt(1));
+                loginResponse.setUserName(rs.getString(2));
+                loginResponse.setRole(rs.getString(4));
+            }
+
+            dbConnection.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public LoginResponse getLoginResponse()
+    {
+        return loginResponse;
+    }
+
+    private String userName;
+    private String userPassword;
+    private String LOGIN_TABLE;
+    private String COL_USER_NAME;
+    private String COL_USER_PASSWORD;
+    private LoginResponse loginResponse;
 }

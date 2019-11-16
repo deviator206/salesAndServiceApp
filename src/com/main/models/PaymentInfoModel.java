@@ -1,29 +1,38 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   PaymentInfoModel.java
+
 package com.main.models;
 
-public class PaymentInfoModel {
-	
-private String advancePayment;
-private String finalAmount;
 
-public String getAdvancePayment() {
-	return advancePayment;
-}
+public class PaymentInfoModel
+{
 
-public void setAdvancePayment(String advancePayment) {
-	this.advancePayment = advancePayment;
-}
+    public PaymentInfoModel()
+    {
+    }
 
-/**
- * @return the finalAmount
- */
-public String getFinalAmount() {
-	return finalAmount;
-}
+    public String getAdvancePayment()
+    {
+        return advancePayment;
+    }
 
-/**
- * @param finalAmount the finalAmount to set
- */
-public void setFinalAmount(String finalAmount) {
-	this.finalAmount = finalAmount;
-} 
+    public void setAdvancePayment(String advancePayment)
+    {
+        this.advancePayment = advancePayment;
+    }
+
+    public String getFinalAmount()
+    {
+        return finalAmount;
+    }
+
+    public void setFinalAmount(String finalAmount)
+    {
+        this.finalAmount = finalAmount;
+    }
+
+    private String advancePayment;
+    private String finalAmount;
 }

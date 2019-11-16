@@ -1,58 +1,71 @@
-package com.main.impl;
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   CustomerSearchImpl.java
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+package com.main.impl;
 
 import com.main.models.CustomerSearchResponse;
 import com.main.models.CustomerServiceResponse;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CustomerSearchImpl extends CustomerServiceImpl{
-	private String queryText;
-	private CustomerSearchResponse customerSearchResponse;
+// Referenced classes of package com.main.impl:
+//            CustomerServiceImpl
 
-	public String getQueryText() {
-		return queryText;
-	}
+public class CustomerSearchImpl extends CustomerServiceImpl
+{
 
-	public void setQueryText(String queryText) {
-		this.queryText = queryText;
-	}
+    public CustomerSearchImpl()
+    {
+    }
 
-	@Override
-	public void execute() {
-		this.getConnection();
-		Statement stmt;
-		customerSearchResponse = new CustomerSearchResponse();
-		try {
-			
-			customerSearchResponse.setStatus(false);
-			stmt = this.dbConnection.createStatement();
-			ResultSet rs=stmt.executeQuery("select * from "+this.CUSTOMER_TABLE+" where "+this.COL_USER_NAME+" LIKE '%"+this.queryText+"' OR "+this.COL_USER_NAME+" LIKE '"+this.queryText+"%' OR "+this.COL_USER_NAME+" LIKE '%"+this.queryText+"%'   ");
-			List<CustomerServiceResponse> customerServiceResponses = new ArrayList<>();
-			while(rs.next()) {
-				customerSearchResponse.setStatus(true);
-				CustomerServiceResponse customerServiceResponse = new CustomerServiceResponse();
-				customerServiceResponse.setId(rs.getInt(1));
-				customerServiceResponse.setName(rs.getString(2));
-				customerServiceResponse.setAddress(rs.getString(3));
-				customerServiceResponse.setPhone(rs.getString(4));
-				customerServiceResponses.add(customerServiceResponse);
-			}
-			customerSearchResponse.setCustomerServiceResponseList(customerServiceResponses);
-			this.dbConnection.close();  
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	
-	}
+    public String getQueryText()
+    {
+        return queryText;
+    }
 
-	public CustomerSearchResponse getCustomerSearchResponse() {
-		// TODO Auto-generated method stub
-		return customerSearchResponse;
-	}
+    public void setQueryText(String queryText)
+    {
+        this.queryText = queryText;
+    }
+
+    public void execute()
+    {
+        getConnection();
+        customerSearchResponse = new CustomerSearchResponse();
+        try
+        {
+            customerSearchResponse.setStatus(false);
+            Statement stmt = dbConnection.createStatement();
+            ResultSet rs = stmt.executeQuery((new StringBuilder()).append("select * from ").append(CUSTOMER_TABLE).append(" where ").append(COL_USER_NAME).append(" LIKE '%").append(queryText).append("' OR ").append(COL_USER_NAME).append(" LIKE '").append(queryText).append("%' OR ").append(COL_USER_NAME).append(" LIKE '%").append(queryText).append("%'   ").toString());
+            List customerServiceResponses = new ArrayList();
+            CustomerServiceResponse customerServiceResponse;
+            for(; rs.next(); customerServiceResponses.add(customerServiceResponse))
+            {
+                customerSearchResponse.setStatus(true);
+                customerServiceResponse = new CustomerServiceResponse();
+                customerServiceResponse.setId(rs.getInt(1));
+                customerServiceResponse.setName(rs.getString(2));
+                customerServiceResponse.setAddress(rs.getString(3));
+                customerServiceResponse.setPhone(rs.getString(4));
+            }
+
+            customerSearchResponse.setCustomerServiceResponseList(customerServiceResponses);
+            dbConnection.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public CustomerSearchResponse getCustomerSearchResponse()
+    {
+        return customerSearchResponse;
+    }
+
+    private String queryText;
+    private CustomerSearchResponse customerSearchResponse;
 }

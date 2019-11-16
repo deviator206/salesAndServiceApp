@@ -1,34 +1,47 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   RepairServiceResponse.java
+
 package com.main.models;
 
-public class RepairServiceResponse extends MainResponse{
 
-	private int[] recordsCreated;
-	private String repairReceiptId;
-	private String vatTinNumber;
+// Referenced classes of package com.main.models:
+//            MainResponse
 
-	public void setCreatedProductList(int[] recordsAffected) {
-		this.recordsCreated = recordsAffected;
-		
-	}
+public class RepairServiceResponse extends MainResponse
+{
 
-	public void setRepairReceiptId(String string) {
-		this.repairReceiptId = string;
-		
-	}
-	
-	public String getRepairReceiptId() {
-		return this.repairReceiptId;
-		
-	}
+    public RepairServiceResponse()
+    {
+    }
 
-	public void setVatTinNumber(String string) {
-		this.vatTinNumber = string;
-		
-	}
-	
-	public String getVatTinNumber() {
-		return this.vatTinNumber;
-		
-	}
+    public void setCreatedProductList(int recordsAffected[])
+    {
+        recordsCreated = recordsAffected;
+    }
 
+    public void setRepairReceiptId(String string)
+    {
+        repairReceiptId = string;
+    }
+
+    public String getRepairReceiptId()
+    {
+        return repairReceiptId;
+    }
+
+    public void setVatTinNumber(String string)
+    {
+        vatTinNumber = string;
+    }
+
+    public String getVatTinNumber()
+    {
+        return vatTinNumber;
+    }
+
+    private int recordsCreated[];
+    private String repairReceiptId;
+    private String vatTinNumber;
 }

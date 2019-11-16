@@ -1,40 +1,50 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   SearchRepairServiceResponse.java
+
 package com.main.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchRepairServiceResponse extends MainResponse {
-	
-	public List<RepairRequestResponse> searchResults = new ArrayList<>();
-	private int finalIncome;
-	private int onlyAdvanceIncome;
+// Referenced classes of package com.main.models:
+//            MainResponse
 
-	public List<RepairRequestResponse> getSearchResults() {
-		return searchResults;
-	}
+public class SearchRepairServiceResponse extends MainResponse
+{
 
-	public void setSearchResults(List<RepairRequestResponse> responseSearchResult) {
-		this.searchResults = responseSearchResult;
-	}
+    public SearchRepairServiceResponse()
+    {
+        searchResults = new ArrayList();
+    }
 
-	/**
-	 * @return the finalIncome
-	 */
-	public int getFinalIncome() {
-		return finalIncome;
-	}
+    public List getSearchResults()
+    {
+        return searchResults;
+    }
 
-	/**
-	 * @param totalIncome the finalIncome to set
-	 */
-	public void setFinalIncome(int totalIncome) {
-		this.finalIncome = totalIncome;
-	}
+    public void setSearchResults(List responseSearchResult)
+    {
+        searchResults = responseSearchResult;
+    }
 
-	public void setOnlyAdvanceIncome(int onlyAdvanceIncome) {
-		this.onlyAdvanceIncome = onlyAdvanceIncome;
-		// TODO Auto-generated method stub
-		
-	}
+    public int getFinalIncome()
+    {
+        return finalIncome;
+    }
 
+    public void setFinalIncome(int totalIncome)
+    {
+        finalIncome = totalIncome;
+    }
+
+    public void setOnlyAdvanceIncome(int onlyAdvanceIncome)
+    {
+        this.onlyAdvanceIncome = onlyAdvanceIncome;
+    }
+
+    public List searchResults;
+    private int finalIncome;
+    private int onlyAdvanceIncome;
 }

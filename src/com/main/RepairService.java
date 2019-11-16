@@ -73,7 +73,7 @@ public class RepairService {
 		getRepairRequestStatusImpl.setStartFrom(startFrom);
 		getRepairRequestStatusImpl.setStartTo(startTo);
 		getRepairRequestStatusImpl.setServiceMode();
-		getRepairRequestStatusImpl.setManipulatePayment(true);
+		// getRepairRequestStatusImpl.setManipulatePayment(true);
 		getRepairRequestStatusImpl.execute();
 		return getRepairRequestStatusImpl.getSearchResult();
 	}

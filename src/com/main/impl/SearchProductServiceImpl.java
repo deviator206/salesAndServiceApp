@@ -1,71 +1,83 @@
-package com.main.impl;
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   SearchProductServiceImpl.java
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+package com.main.impl;
 
 import com.main.models.SerachProductServiceResponse;
 import com.main.models.SingleProductModel;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SearchProductServiceImpl extends CreateProductServiceImpl {
+// Referenced classes of package com.main.impl:
+//            CreateProductServiceImpl
 
-	private SerachProductServiceResponse serachProductServiceResponse;
-	private String finalColumn = "";
-	private String queryText = "";
+public class SearchProductServiceImpl extends CreateProductServiceImpl
+{
 
-	public SerachProductServiceResponse getSearchResponse() {
-		return serachProductServiceResponse;
-	}
+    public SearchProductServiceImpl()
+    {
+        finalColumn = "";
+        queryText = "";
+    }
 
-	public void setSearchOn(String queryOnColumn) {
-		if (queryOnColumn.equals("NAME")) {
-			this.finalColumn = this.COL_BRAND_NAME;
+    public SerachProductServiceResponse getSearchResponse()
+    {
+        return serachProductServiceResponse;
+    }
 
-		} else if (queryOnColumn.equals("MODEL")) {
-			this.finalColumn = this.COL_BRAND_MODEL;
-		} else if (queryOnColumn.equals("SN")) {
-			this.finalColumn = this.COL_SN;
-		}
+    public void setSearchOn(String queryOnColumn)
+    {
+        if(queryOnColumn.equals("NAME"))
+            finalColumn = COL_BRAND_NAME;
+        else
+        if(queryOnColumn.equals("MODEL"))
+            finalColumn = COL_BRAND_MODEL;
+        else
+        if(queryOnColumn.equals("SN"))
+            finalColumn = COL_SN;
+    }
 
-	}
+    public void setSearchText(String queryText)
+    {
+        this.queryText = queryText;
+    }
 
-	public void setSearchText(String queryText) {
-		this.queryText = queryText;
+    public void executeSearch()
+    {
+        getConnection();
+        serachProductServiceResponse = new SerachProductServiceResponse();
+        try
+        {
+            serachProductServiceResponse.setStatus(false);
+            Statement stmt = dbConnection.createStatement();
+            ResultSet rs = stmt.executeQuery((new StringBuilder()).append("select * from ").append(PRODUCT_TABLE).append(" where ").append(finalColumn).append(" LIKE '%").append(queryText).append("' OR ").append(finalColumn).append(" LIKE '").append(queryText).append("%' OR ").append(finalColumn).append(" LIKE '%").append(queryText).append("%'   ").toString());
+            List singleProductModelList = new ArrayList();
+            SingleProductModel singleProductModel;
+            for(; rs.next(); singleProductModelList.add(singleProductModel))
+            {
+                serachProductServiceResponse.setStatus(true);
+                singleProductModel = new SingleProductModel();
+                singleProductModel.setId(rs.getInt(1));
+                singleProductModel.setName(rs.getString(2));
+                singleProductModel.setModel(rs.getString(3));
+                singleProductModel.setSn(rs.getString(4));
+                singleProductModel.setPrice(rs.getInt(5));
+                singleProductModel.setTaxType(rs.getString(6));
+            }
 
-	}
+            serachProductServiceResponse.setSingleProductModelList(singleProductModelList);
+            dbConnection.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-	public void executeSearch() {
-		this.getConnection();
-		Statement stmt;
-		serachProductServiceResponse = new SerachProductServiceResponse();
-		try {
-			
-			serachProductServiceResponse.setStatus(false);
-			stmt = this.dbConnection.createStatement();
-			ResultSet rs=stmt.executeQuery("select * from "+this.PRODUCT_TABLE+" where "+this.finalColumn+" LIKE '%"+this.queryText+"' OR "+this.finalColumn+" LIKE '"+this.queryText+"%' OR "+this.finalColumn+" LIKE '%"+this.queryText+"%'   ");
-			List<SingleProductModel> singleProductModelList = new ArrayList<>();
-			while(rs.next()) {
-				serachProductServiceResponse.setStatus(true);
-				SingleProductModel singleProductModel = new SingleProductModel();
-				singleProductModel.setId(rs.getInt(1));
-				singleProductModel.setName(rs.getString(2));
-				singleProductModel.setModel(rs.getString(3));
-				singleProductModel.setSn(rs.getString(4));
-				singleProductModel.setPrice(rs.getInt(5));
-				singleProductModel.setTaxType(rs.getString(6));
-				singleProductModelList.add(singleProductModel);
-			}
-			serachProductServiceResponse.setSingleProductModelList(singleProductModelList);
-			this.dbConnection.close();  
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-
-	}
-
+    private SerachProductServiceResponse serachProductServiceResponse;
+    private String finalColumn;
+    private String queryText;
 }

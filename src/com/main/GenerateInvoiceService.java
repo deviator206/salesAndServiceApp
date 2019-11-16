@@ -92,7 +92,7 @@ public class GenerateInvoiceService {
 							createProductServiceImpl.setProductList(newProductList);
 							createProductServiceImpl.executeCreation();
 							
-							createNewSaleEntryServiceImpl.setProductId(createProductServiceImpl.getResponse().getCreatedProductList().get(0));
+							createNewSaleEntryServiceImpl.setProductId((String)createProductServiceImpl.getResponse().getCreatedProductList().get(0));
 						}
 						createNewSaleEntryServiceImpl.setCustomerId(customerValidID);
 						createNewSaleEntryServiceImpl.setOrderDate(Timestamp.valueOf(productInfo.getString("orderDate")));

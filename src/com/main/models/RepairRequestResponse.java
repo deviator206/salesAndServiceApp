@@ -1,212 +1,231 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   RepairRequestResponse.java
+
 package com.main.models;
 
 import java.util.List;
 
-public class RepairRequestResponse extends MainResponse {
+// Referenced classes of package com.main.models:
+//            MainResponse, PaymentSingleFinalModel, CommentsInfoModel, PaymentSingleModel, 
+//            CourierInfoModel, CustomerServiceResponse, PaymentInfoModel, EstimationInfoModel, 
+//            UserInfo
 
-	private String accessoryList;
-	private String vatTinNumber;
-	private String advancePayment;
-	
+public class RepairRequestResponse extends MainResponse
+{
 
-	public String getAdvancePayment() {
-		return advancePayment;
-	}
+    public RepairRequestResponse()
+    {
+    }
 
-	public void setAdvancePayment(String advancePayment) {
-		this.advancePayment = advancePayment;
-	}
+    public String getAdvancePayment()
+    {
+        return advancePayment;
+    }
 
-	public String getVatTinNumber() {
-		return vatTinNumber;
-	}
+    public void setAdvancePayment(String advancePayment)
+    {
+        this.advancePayment = advancePayment;
+    }
 
-	public void setVatTinNumber(String vatTinNumber) {
-		this.vatTinNumber = vatTinNumber;
-	}
+    public String getVatTinNumber()
+    {
+        return vatTinNumber;
+    }
 
-	public String getAccessoryList() {
-		return accessoryList;
-	}
+    public void setVatTinNumber(String vatTinNumber)
+    {
+        this.vatTinNumber = vatTinNumber;
+    }
 
-	public void setAccessoryList(String accessoryList) {
-		this.accessoryList = accessoryList;
-	}
+    public String getAccessoryList()
+    {
+        return accessoryList;
+    }
 
-	public String getProblemList() {
-		return problemList;
-	}
+    public void setAccessoryList(String accessoryList)
+    {
+        this.accessoryList = accessoryList;
+    }
 
-	public void setProblemList(String problemList) {
-		this.problemList = problemList;
-	}
+    public String getProblemList()
+    {
+        return problemList;
+    }
 
-	public String getServiceNumber() {
-		return serviceNumber;
-	}
+    public void setProblemList(String problemList)
+    {
+        this.problemList = problemList;
+    }
 
-	public void setServiceNumber(String serviceNumber) {
-		this.serviceNumber = serviceNumber;
-	}
+    public String getServiceNumber()
+    {
+        return serviceNumber;
+    }
 
-	public String getServiceStatus() {
-		return serviceStatus;
-	}
+    public void setServiceNumber(String serviceNumber)
+    {
+        this.serviceNumber = serviceNumber;
+    }
 
-	public void setServiceStatus(String serviceStatus) {
-		this.serviceStatus = serviceStatus;
-	}
+    public String getServiceStatus()
+    {
+        return serviceStatus;
+    }
 
-	public String getServiceDate() {
-		return serviceDate;
-	}
+    public void setServiceStatus(String serviceStatus)
+    {
+        this.serviceStatus = serviceStatus;
+    }
 
-	public void setServiceDate(String serviceDate) {
-		this.serviceDate = serviceDate;
-	}
+    public String getServiceDate()
+    {
+        return serviceDate;
+    }
 
-	public CommentsInfoModel getCommentsInfo() {
-		return commentsInfo;
-	}
+    public void setServiceDate(String serviceDate)
+    {
+        this.serviceDate = serviceDate;
+    }
 
-	public void setCommentsInfo(CommentsInfoModel commentInfo) {
-		this.commentsInfo = commentInfo;
-	}
+    public CommentsInfoModel getCommentsInfo()
+    {
+        return commentsInfo;
+    }
 
-	public CourierInfoModel getCourierInfo() {
-		return courierInfo;
-	}
+    public void setCommentsInfo(CommentsInfoModel commentInfo)
+    {
+        commentsInfo = commentInfo;
+    }
 
-	public void setCourierInfo(CourierInfoModel courierInfo) {
-		this.courierInfo = courierInfo;
-	}
+    public CourierInfoModel getCourierInfo()
+    {
+        return courierInfo;
+    }
 
-	public CustomerServiceResponse getCustomerInfo() {
-		return customerInfo;
-	}
+    public void setCourierInfo(CourierInfoModel courierInfo)
+    {
+        this.courierInfo = courierInfo;
+    }
 
-	public void setCustomerInfo(CustomerServiceResponse customerInfo) {
-		this.customerInfo = customerInfo;
-	}
+    public CustomerServiceResponse getCustomerInfo()
+    {
+        return customerInfo;
+    }
 
-	public PaymentInfoModel getPaymentInfo() {
-		return paymentInfo;
-	}
+    public void setCustomerInfo(CustomerServiceResponse customerInfo)
+    {
+        this.customerInfo = customerInfo;
+    }
 
-	public void setPaymentInfo(PaymentInfoModel paymentInfo) {
-		this.paymentInfo = paymentInfo;
-	}
+    public PaymentInfoModel getPaymentInfo()
+    {
+        return paymentInfo;
+    }
 
-	public List<ProductInfoModel> getProductInfo() {
-		return productInfo;
-	}
+    public void setPaymentInfo(PaymentInfoModel paymentInfo)
+    {
+        this.paymentInfo = paymentInfo;
+    }
 
-	public void setProductInfo(List<ProductInfoModel> productInfo) {
-		this.productInfo = productInfo;
-	}
+    public List getProductInfo()
+    {
+        return productInfo;
+    }
 
-	public UserInfo getUserInfo() {
-		return userInfo;
-	}
+    public void setProductInfo(List productInfo)
+    {
+        this.productInfo = productInfo;
+    }
 
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
-	}
+    public UserInfo getUserInfo()
+    {
+        return userInfo;
+    }
 
-	/**
-	 * @return the totalIncome
-	 */
-	public String getTotalIncome() {
-		return totalIncome;
-	}
+    public void setUserInfo(UserInfo userInfo)
+    {
+        this.userInfo = userInfo;
+    }
 
-	/**
-	 * @param totalIncome the totalIncome to set
-	 */
-	public void setTotalIncome(String totalIncome) {
-		this.totalIncome = totalIncome;
-	}
+    public String getTotalIncome()
+    {
+        return totalIncome;
+    }
 
-	/**
-	 * @return the outwardCourierInfo
-	 */
-	public CourierInfoModel getOutwardCourierInfo() {
-		return outwardCourierInfo;
-	}
+    public void setTotalIncome(String totalIncome)
+    {
+        this.totalIncome = totalIncome;
+    }
 
-	/**
-	 * @param outwardCourierInfo the outwardCourierInfo to set
-	 */
-	public void setOutwardCourierInfo(CourierInfoModel outwardCourierInfo) {
-		this.outwardCourierInfo = outwardCourierInfo;
-	}
+    public CourierInfoModel getOutwardCourierInfo()
+    {
+        return outwardCourierInfo;
+    }
 
-	/**
-	 * @return the deliveredToCustomerDate
-	 */
-	public String getDeliveredToCustomerDate() {
-		return deliveredToCustomerDate;
-	}
+    public void setOutwardCourierInfo(CourierInfoModel outwardCourierInfo)
+    {
+        this.outwardCourierInfo = outwardCourierInfo;
+    }
 
-	/**
-	 * @param deliveredToCustomerDate the deliveredToCustomerDate to set
-	 */
-	public void setDeliveredToCustomerDate(String deliveredToCustomerDate) {
-		this.deliveredToCustomerDate = deliveredToCustomerDate;
-	}
+    public String getDeliveredToCustomerDate()
+    {
+        return deliveredToCustomerDate;
+    }
 
-	/**
-	 * @return the paymentSingleModel
-	 */
-	public PaymentSingleModel getPaymentSingleModel() {
-		return paymentSingleModel;
-	}
+    public void setDeliveredToCustomerDate(String deliveredToCustomerDate)
+    {
+        this.deliveredToCustomerDate = deliveredToCustomerDate;
+    }
 
-	/**
-	 * @param paymentSingleModel the paymentSingleModel to set
-	 */
-	public void setPaymentSingleModel(PaymentSingleModel paymentSingleModel) {
-		this.paymentSingleModel = paymentSingleModel;
-	}
+    public PaymentSingleModel getPaymentSingleModel()
+    {
+        return paymentSingleModel;
+    }
 
-	/**
-	 * @return the paymentSingleFinalModel
-	 */
-	public PaymentSingleFinalModel getPaymentSingleFinalModel() {
-		return paymentSingleFinalModel;
-	}
+    public void setPaymentSingleModel(PaymentSingleModel paymentSingleModel)
+    {
+        this.paymentSingleModel = paymentSingleModel;
+    }
 
-	/**
-	 * @param paymentSingleFinalModel the paymentSingleFinalModel to set
-	 */
-	public void setPaymentSingleFinalModel(PaymentSingleFinalModel paymentSingleFinalModel) {
-		this.paymentSingleFinalModel = paymentSingleFinalModel;
-	}
+    public PaymentSingleFinalModel getPaymentSingleFinalModel()
+    {
+        return paymentSingleFinalModel;
+    }
 
-	private PaymentSingleFinalModel paymentSingleFinalModel;
-	private String problemList;
-	private String serviceNumber;
-	private String serviceStatus;
-	private String serviceDate;
-	private String deliveredToCustomerDate;
-	private String totalIncome;
-	
-	private CommentsInfoModel commentsInfo;
-	private PaymentSingleModel paymentSingleModel;
-	private CourierInfoModel courierInfo;
-	private CourierInfoModel outwardCourierInfo;
-	private CustomerServiceResponse customerInfo;
-	private PaymentInfoModel paymentInfo;
-	private EstimationInfoModel estimation;
-	public EstimationInfoModel getEstimation() {
-		return estimation;
-	}
+    public void setPaymentSingleFinalModel(PaymentSingleFinalModel paymentSingleFinalModel)
+    {
+        this.paymentSingleFinalModel = paymentSingleFinalModel;
+    }
 
-	public void setEstimation(EstimationInfoModel estimation) {
-		this.estimation = estimation;
-	}
+    public EstimationInfoModel getEstimation()
+    {
+        return estimation;
+    }
 
-	private List<ProductInfoModel> productInfo;
-	private UserInfo userInfo;
+    public void setEstimation(EstimationInfoModel estimation)
+    {
+        this.estimation = estimation;
+    }
 
+    private String accessoryList;
+    private String vatTinNumber;
+    private String advancePayment;
+    private PaymentSingleFinalModel paymentSingleFinalModel;
+    private String problemList;
+    private String serviceNumber;
+    private String serviceStatus;
+    private String serviceDate;
+    private String deliveredToCustomerDate;
+    private String totalIncome;
+    private CommentsInfoModel commentsInfo;
+    private PaymentSingleModel paymentSingleModel;
+    private CourierInfoModel courierInfo;
+    private CourierInfoModel outwardCourierInfo;
+    private CustomerServiceResponse customerInfo;
+    private PaymentInfoModel paymentInfo;
+    private EstimationInfoModel estimation;
+    private List productInfo;
+    private UserInfo userInfo;
 }

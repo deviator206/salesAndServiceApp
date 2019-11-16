@@ -1,16 +1,28 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   ProductInfoListModel.java
+
 package com.main.models;
 
 import java.util.List;
 
-public class ProductInfoListModel {
+public class ProductInfoListModel
+{
 
-	private List<ProductInfoModel> productInfoList;
+    public ProductInfoListModel()
+    {
+    }
 
-	public List<ProductInfoModel> getProductInfoList() {
-		return productInfoList;
-	}
+    public List getProductInfoList()
+    {
+        return productInfoList;
+    }
 
-	public void setProductInfoList(List<ProductInfoModel> productInfoList) {
-		this.productInfoList = productInfoList;
-	}
+    public void setProductInfoList(List productInfoList)
+    {
+        this.productInfoList = productInfoList;
+    }
+
+    private List productInfoList;
 }

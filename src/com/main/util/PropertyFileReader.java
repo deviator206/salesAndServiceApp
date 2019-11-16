@@ -12,7 +12,8 @@ import org.codehaus.jettison.json.JSONObject;
 
 public class PropertyFileReader {
 	public JSONObject propertyInfo;  
-	
+	public Boolean isDevelopment = true;
+
 	public PropertyFileReader(){
 		this.simulatedInfo();
 		//this.populateJSONProperties();
@@ -22,17 +23,19 @@ public class PropertyFileReader {
 		// TODO Auto-generated method stub
 		propertyInfo = new JSONObject();
 		try {
-			//propertyFileReader.propertyInfo.getString("host")
-			//propertyFileReader.propertyInfo.getString("port")
-			//propertyFileReader.propertyInfo.getString("db")
-			//propertyFileReader.propertyInfo.getString("dbuser")
-			//propertyFileReader.propertyInfo.getString("dbpassword")
-			propertyInfo.put("host", "localhost");
-
-			propertyInfo.put("port", "3306");
-			propertyInfo.put("db", "nce_db");
-			propertyInfo.put("dbuser", "root");
-			propertyInfo.put("dbpassword", "root");
+			if(isDevelopment) {
+				propertyInfo.put("host", "localhost");
+				propertyInfo.put("port", "3306");
+				propertyInfo.put("db", "nce_db");
+				propertyInfo.put("dbuser", "root");
+				propertyInfo.put("dbpassword", "root");
+			} else {
+				propertyInfo.put("host", "localhost");
+				propertyInfo.put("port", "3306");
+				propertyInfo.put("db", "nce_db");
+				propertyInfo.put("dbuser", "sns_app");
+				propertyInfo.put("dbpassword", "mine_sns.App=ea2s");
+			}
 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

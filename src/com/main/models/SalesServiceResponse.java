@@ -1,79 +1,95 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   SalesServiceResponse.java
+
 package com.main.models;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class SalesServiceResponse extends MainResponse{
-	
-	private int counter =0;
-	private String invoiceId ="";
-	private String vatTinNumber ="";
-	private CustomerServiceResponse customerServiceResponse;
-	private List<String> newProductServiceResponse;
-	
-	
-	
-	public List<String> getProductServiceResponse() {
-		return newProductServiceResponse;
-	}
+// Referenced classes of package com.main.models:
+//            MainResponse, CustomerServiceResponse
 
+public class SalesServiceResponse extends MainResponse
+{
 
-	public void setProductServiceResponse(List<String> list) {
-		this.newProductServiceResponse = list;
-	}
+    public SalesServiceResponse()
+    {
+        counter = 0;
+        invoiceId = "";
+        vatTinNumber = "";
+    }
 
+    public List getProductServiceResponse()
+    {
+        return newProductServiceResponse;
+    }
 
-	public CustomerServiceResponse getCustomerServiceResponse() {
-		return customerServiceResponse;
-	}
+    public void setProductServiceResponse(List list)
+    {
+        newProductServiceResponse = list;
+    }
 
+    public CustomerServiceResponse getCustomerServiceResponse()
+    {
+        return customerServiceResponse;
+    }
 
-	public void setCustomerServiceResponse(CustomerServiceResponse customerServiceResponse) {
-		this.customerServiceResponse = customerServiceResponse;
-	}
+    public void setCustomerServiceResponse(CustomerServiceResponse customerServiceResponse)
+    {
+        this.customerServiceResponse = customerServiceResponse;
+    }
 
+    public int getCounter()
+    {
+        return counter;
+    }
 
-	public int getCounter() {
-		return counter;
-	}
+    public String getVatTinNumber()
+    {
+        return vatTinNumber;
+    }
 
+    public void setVatTinNumber(String vatTinNumber)
+    {
+        this.vatTinNumber = vatTinNumber;
+    }
 
-	public String getVatTinNumber() {
-		return vatTinNumber;
-	}
+    public void setInvoiceId(String invoiceInfo)
+    {
+        invoiceId = invoiceInfo;
+    }
 
+    public String getInvoiceId()
+    {
+        return invoiceId;
+    }
 
-	public void setVatTinNumber(String vatTinNumber) {
-		this.vatTinNumber = vatTinNumber;
-	}
+    public void setCounter(int i)
+    {
+        counter = i;
+    }
 
+    public void incrementCounter()
+    {
+        counter++;
+    }
 
-	public void setInvoiceId(String invoiceInfo) {
-		this.invoiceId = invoiceInfo;
-	}
-	public String getInvoiceId() {
-		return this.invoiceId ;
-	}
+    public int getCounterValue()
+    {
+        return counter;
+    }
 
-	
-	
-	
-	public void setCounter(int i) {
-		this.counter = i;
-	}
-	
-	public void incrementCounter() {
-		this.counter++;
-	}
+    public void setInvoiceInfo(HashMap invoiceInformation)
+    {
+        invoiceId = (String)invoiceInformation.get("invoice");
+        vatTinNumber = (String)invoiceInformation.get("vatTinNumber");
+    }
 
-	public int getCounterValue() {
-		// TODO Auto-generated method stub
-		return this.counter;
-	}
-
-	public void setInvoiceInfo(HashMap<String, String> invoiceInformation) {
-			invoiceId = invoiceInformation.get("invoice");
-			vatTinNumber = invoiceInformation.get("vatTinNumber");
-	}
-	
+    private int counter;
+    private String invoiceId;
+    private String vatTinNumber;
+    private CustomerServiceResponse customerServiceResponse;
+    private List newProductServiceResponse;
 }
