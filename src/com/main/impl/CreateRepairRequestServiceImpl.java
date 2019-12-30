@@ -5,11 +5,18 @@
 
 package com.main.impl;
 
-import com.main.models.*;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.codehaus.jettison.json.*;
+
+import com.main.models.RepairServiceResponse;
+import com.main.models.SalesServiceResponse;
+
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 // Referenced classes of package com.main.impl:
 //            ServiceBase, CustomerServiceImpl, GenerateInvoiceOnlyImpl, PaymentDetailsImpl
@@ -91,7 +98,17 @@ public class CreateRepairRequestServiceImpl extends ServiceBase
             customerValidID = customerServiceImpl.getCustomerCreationResponse().getId();
         } else
         {
+            // existing customer to update it
             customerValidID = Integer.parseInt(customerInfo.getString("id"));
+
+            CustomerServiceImpl customerServiceUpdateImpl = new CustomerServiceImpl();
+						customerServiceUpdateImpl.setUserName(customerInfo.getString("name"));
+						customerServiceUpdateImpl.setUserAddress(customerInfo.getString("address"));
+                        customerServiceUpdateImpl.setUserPhone(customerInfo.getString("phone"));
+                        customerServiceUpdateImpl.setUserAlternatePhone(customerInfo.getString("alternateNo"));
+						customerServiceUpdateImpl.setUserID(customerValidID);
+                        customerServiceUpdateImpl.executeUpdateCustomer();
+                        
         }
         GenerateInvoiceOnlyImpl generateInvoiceOnlyImpl = new GenerateInvoiceOnlyImpl();
         generateInvoiceOnlyImpl.SALES_INVOICE_TABLE = "REPAIR_INVOICE_TABLE";

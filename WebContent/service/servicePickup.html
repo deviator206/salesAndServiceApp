@@ -12,7 +12,9 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <label class="control-label col-sm-3" for="cust-phone" style="padding-top:0px">Phone No:</label>
-                <div class="col-sm-9" ng-bind="serviceRequest.customerInfo.phone"></div>
+                <div class="col-sm-4" ng-bind="serviceRequest.customerInfo.phone"></div>
+                <span ng-if="serviceRequest.customerInfo.alternateNo"> / </span>
+                <div class="col-sm-4"  ng-if="serviceRequest.customerInfo.alternateNo" ng-bind="serviceRequest.customerInfo.alternateNo"></div>
             </div>
         </div>
     </div>

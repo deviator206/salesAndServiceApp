@@ -5,11 +5,25 @@
 
 package com.main.impl;
 
-import com.main.models.*;
-import java.io.PrintStream;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.main.models.CommentsInfoModel;
+import com.main.models.CourierInfoModel;
+import com.main.models.CustomerServiceResponse;
+import com.main.models.EstimationInfoModel;
+import com.main.models.PaymentInfoModel;
+import com.main.models.PaymentSingleFinalModel;
+import com.main.models.PaymentSingleModel;
+import com.main.models.ProductInfoModel;
+import com.main.models.RepairRequestResponse;
+import com.main.models.SearchRepairServiceResponse;
+import com.main.models.UserInfo;
+
 import org.codehaus.jettison.json.JSONException;
 
 // Referenced classes of package com.main.impl:
@@ -317,6 +331,8 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl
             customerInfo.setId(customerId);
             customerInfo.setName(rs1.getString(2));
             customerInfo.setAddress(rs1.getString(3));
+            customerInfo.setPhone(rs1.getString(4));
+            customerInfo.setAlternateNo(rs1.getString(5));
         }
 
         return customerInfo;
@@ -343,6 +359,7 @@ public class GetRepairRequestStatusImpl extends CreateRepairRequestServiceImpl
                 customerInfo.setName(rs1.getString(2));
                 customerInfo.setAddress(rs1.getString(3));
                 customerInfo.setPhone(rs1.getString(4));
+                customerInfo.setAlternateNo(rs1.getString(5));
                 System.out.println((new StringBuilder()).append(" Looping for ").append(customerId).append(" : ###").append(customerInfo.getName()).toString());
             }
 

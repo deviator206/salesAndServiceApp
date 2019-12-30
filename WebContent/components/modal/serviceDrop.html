@@ -20,7 +20,10 @@
                     <td>&nbsp; {{(serviceRequest.customerInfo.name).toUpperCase()}}</td>
                     <td></td>
                     <td><span class="pull-right">Mobile</span></td>
-                    <td><span class="pull-left">:</span>&nbsp; <span>{{serviceRequest.customerInfo.phone}}</span></td>
+                    <td><span class="pull-left">:</span>&nbsp;
+                     <span>{{serviceRequest.customerInfo.phone}}</span>
+                     <span ng-if="serviceRequest.customerInfo && serviceRequest.customerInfo.alternateNo " >/ {{serviceRequest.customerInfo.alternateNo}}</span>
+                    </td>
                 </tr>
                 <tr>
                     <td><span class="pull-left">Address:</span> <span class="pull-right">:</span></td>

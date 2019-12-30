@@ -5,11 +5,14 @@
 
 package com.main.impl;
 
-import com.main.models.CustomerSearchResponse;
-import com.main.models.CustomerServiceResponse;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.main.models.CustomerSearchResponse;
+import com.main.models.CustomerServiceResponse;
 
 // Referenced classes of package com.main.impl:
 //            CustomerServiceImpl
@@ -50,6 +53,7 @@ public class CustomerSearchImpl extends CustomerServiceImpl
                 customerServiceResponse.setName(rs.getString(2));
                 customerServiceResponse.setAddress(rs.getString(3));
                 customerServiceResponse.setPhone(rs.getString(4));
+                customerServiceResponse.setAlternateNo(rs.getString(5));
             }
 
             customerSearchResponse.setCustomerServiceResponseList(customerServiceResponses);

@@ -114,6 +114,10 @@
                             <td>
                                 <span class="in-table-data"> name:</span> {{row.customerInfo.name}} <br/> 
                                 <span class="in-table-data"> phone: </span> {{row.customerInfo.phone}} <br/> 
+
+                                <span class="in-table-data" ng-if="row.customerInfo.alternateNo"> alternate: </span> 
+                                <span ng-if="row.customerInfo.alternateNo"> {{row.customerInfo.alternateNo}}  </span><br/> 
+
                             </td>
                             <td> 
                               <div ng-repeat="item in row.productInfo">

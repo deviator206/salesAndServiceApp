@@ -5,10 +5,29 @@
 
 package com.main.impl;
 
-import com.main.models.*;
-import java.sql.*;
-import java.util.*;
-import org.codehaus.jettison.json.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import com.main.models.CommentsInfoModel;
+import com.main.models.CourierInfoModel;
+import com.main.models.CustomerServiceResponse;
+import com.main.models.PaymentInfoModel;
+import com.main.models.ProductInfoModel;
+import com.main.models.RepairRequestResponse;
+import com.main.models.RepairServiceResponse;
+import com.main.models.SalesServiceResponse;
+import com.main.models.SearchRepairServiceResponse;
+import com.main.models.UserInfo;
+
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 // Referenced classes of package com.main.impl:
 //            ServiceBase, PaymentDetailsImpl
@@ -56,6 +75,8 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase
             customerInfo.setId(customerId);
             customerInfo.setName(rs1.getString(2));
             customerInfo.setAddress(rs1.getString(3));
+            customerInfo.setPhone(rs1.getString(4));
+            customerInfo.setAlternateNo(rs1.getString(5));
         }
 
         return customerInfo;
