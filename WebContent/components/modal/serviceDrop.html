@@ -84,9 +84,9 @@
         </tr>
     </table>
  
-     <div class="row"  ng-if='receiptType === "RECEIPT"  || receiptType === "ESTIMATE"'>
+     <div class="row"  ng-if='receiptType === "RECEIPT"'>
         <div class="col-xs-12">
-        	<table class="table table-bordered table-condensed invoice-margin" ng-if="paymentInfo.paymentType == 'cash'">
+        	<table class="table table-bordered table-condensed invoice-margin" >
 				<tr>
 				    <td ng-if="serviceRequest.advancePayment != '0'" class="col-xs-6"><strong >Advanced Paid </strong>:&nbsp; {{serviceRequest.advancePayment +" INR"}} </td>
 				</tr>
@@ -103,7 +103,7 @@
       
       <div class="row"  ng-if='receiptType === "RECEIPT" '>
         <div class="col-xs-12">
-        	<table class="table table-bordered table-condensed invoice-margin" ng-if="paymentInfo.paymentType == 'cash'">
+        	<table class="table table-bordered table-condensed invoice-margin" >
 				<tr>
 				    <td ng-if="serviceRequest.advancePayment != '0'" class="col-xs-6"><strong >Total </strong>:&nbsp; {{serviceRequest.paymentInfo.totalCharges +" INR"}} </td>
 				</tr>
