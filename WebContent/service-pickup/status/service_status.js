@@ -57,7 +57,97 @@ angular.module('salesApp.service_status', ['ngRoute'])
 	 this.$close();
  }
  
- 
+ $scope.calculateTotalPayment = function(obj) {
+	 var finalExtraCash = (obj.paymentSingleFinalModel && obj.paymentSingleFinalModel.final_cash) ? obj.paymentSingleFinalModel.final_cash: 0;
+	 var finalCash = (obj.paymentSingleFinalModel && obj.paymentSingleFinalModel.final_amount) ? obj.paymentSingleFinalModel.final_amount: 0;
+	 var advAmount = (obj.paymentSingleModel && obj.paymentSingleModel.amount) ? obj.paymentSingleModel.amount: 0;
+
+	return parseInt(finalExtraCash) +parseInt(finalCash)+parseInt(advAmount);
+ }
+    $scope.transformPaymenObject = function(obj) {
+		var pmObject = {};
+		pmObject['paymentType'] = 'cash';
+		pmObject['cash'] ={
+			amount:obj.paymentSingleFinalModel.final_amount
+		}
+
+		pmObject.additional_cash = obj.paymentSingleFinalModel.final_cash
+		// final payment mode
+		if(obj.paymentSingleFinalModel) {
+			if(obj.paymentSingleFinalModel.final_cheqNo || obj.paymentSingleFinalModel.final_cheqDate) {
+				pmObject['paymentType'] = 'cheq';
+				pmObject['cheq'] ={
+					amount:obj.paymentSingleFinalModel.final_amount,
+					cheqNo:obj.paymentSingleFinalModel.final_cheqNo,
+					bankName:obj.paymentSingleFinalModel.final_bankName,
+					cheqDate:obj.paymentSingleFinalModel.final_cheqDate
+				}
+				
+			}
+			if(obj.paymentSingleFinalModel.final_cardNo || obj.paymentSingleFinalModel.final_cardNetwork) {
+				pmObject['paymentType'] = 'card';
+				pmObject['card'] ={
+					amount:obj.paymentSingleFinalModel.final_amount,
+					cardNumber:obj.paymentSingleFinalModel.final_cardNo,
+					cardNetwork:obj.paymentSingleFinalModel.final_cardNetwork,
+				}
+			}
+			if(obj.paymentSingleFinalModel.final_onlinePaymentMode || obj.paymentSingleFinalModel.final_onlineTransactionId) {
+				pmObject['paymentType'] = 'online';
+				pmObject['online'] ={
+					amount:obj.paymentSingleFinalModel.final_amount,
+					payMode:obj.paymentSingleFinalModel.final_onlinePaymentMode,
+					transactionId:obj.paymentSingleFinalModel.final_onlineTransactionId,
+					remark:obj.paymentSingleFinalModel.final_onlineRemark
+				}
+			}
+		}	
+		pmObject['totalCharges'] = $scope.calculateTotalPayment(obj);
+		return pmObject;
+	}
+
+	$scope.transformBeforeCompletionPaymenObject = function(obj) {
+		var pmObject = {};
+		pmObject['paymentType'] = 'cash';
+		pmObject['cash'] ={
+			amount:obj.paymentSingleModel.amount
+		}
+
+		pmObject.additional_cash = obj.paymentSingleModel.cash
+		// final payment mode
+		if(obj.paymentSingleModel) {
+			if(obj.paymentSingleModel.cheqNo || obj.paymentSingleModel.cheqDate) {
+				pmObject['paymentType'] = 'cheq';
+				pmObject['cheq'] ={
+					amount:obj.paymentSingleModel.amount,
+					cheqNo:obj.paymentSingleModel.cheqNo,
+					bankName:obj.paymentSingleModel.bankName,
+					cheqDate:obj.paymentSingleModel.cheqDate
+				}
+				
+			}
+			if(obj.paymentSingleModel.cardNo || obj.paymentSingleModel.cardNetwork) {
+				pmObject['paymentType'] = 'card';
+				pmObject['card'] ={
+					amount:obj.paymentSingleModel.amount,
+					cardNumber:obj.paymentSingleModel.cardNo,
+					cardNetwork:obj.paymentSingleModel.cardNetwork,
+				}
+			}
+			if(obj.paymentSingleModel.onlinePaymentMode || obj.paymentSingleModel.onlineTransactionId) {
+				pmObject['paymentType'] = 'online';
+				pmObject['online'] ={
+					amount:obj.paymentSingleModel.amount,
+					payMode:obj.paymentSingleModel.onlinePaymentMode,
+					transactionId:obj.paymentSingleModel.onlineTransactionId,
+					remark:obj.paymentSingleModel.onlineRemark
+				}
+			}
+		}	
+		pmObject['totalCharges'] = $scope.calculateTotalPayment(obj);
+		return pmObject;
+	}
+
 	$scope.viewBill = function(obj) 
 	{
 		if (obj.advancePayment) {
@@ -73,7 +163,8 @@ angular.module('salesApp.service_status', ['ngRoute'])
 		$scope.serviceResponse = obj;
 		$scope.serviceResponse.repairReceiptId = obj.serviceNumber;
 		$scope.serviceRequest = obj;
-		$scope.paymentInfo = obj.paymentInfo;
+		$scope.paymentInfo = (obj.serviceStatus !== 'DTC') ? $scope.transformBeforeCompletionPaymenObject(obj) : $scope.transformPaymenObject(obj); //obj.paymentInfo;
+		$scope.serviceRequest.paymentInfo = $scope.paymentInfo;
 		if ($scope.serviceRequest && $scope.serviceRequest.accessoryList && typeof $scope.serviceRequest.accessoryList === 'string') {
 		    // this is a string
 			$scope.serviceRequest.accessoryList = $scope.serviceRequest.accessoryList.split(",");
