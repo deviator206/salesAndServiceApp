@@ -1,0 +1,50 @@
+{"selectedProductList":[],
+"problemLists":["Dust In View Finder"],
+"accessoryList":["AC Cord"],
+"shopUserComment":"OK what a way to check this",
+"customerComment":"I dont know what this means",
+"tentative_quoted_cost":0,
+"customerInfo":{"id":"",
+				"name":"nikonShetty",
+				"address":"address galat hai bhai",
+				"phone":"9898989876"
+				},
+"productInfo":[
+		{"name":"nikonshettyman",
+		"model":"s802123123",
+		"sn":"9712312312321]"
+		}],
+		
+"service_order_date":"2017-06-18 05:30:53",
+"tentative_service_completion_date":"2017-06-18 05:30:53",
+"courierInfo":
+		{"isCourier":false,
+		"courierName":"",
+		"courierPhone":"",
+		"courierDocumentNo":""
+		},
+"courierOutwardInfo":
+		{"isCourier":false,
+			"courierName":"",
+			"courierPhone":"",
+			"courierDocumentNo":""}
+		,
+		"pageMode":"SERVICE_DROP",
+		"serviceDate":"2017-06-18 05:30:53",
+"paymentInfo":{
+			"paymentType":"cash",
+			"paymentTypes":[
+						{"name":"Cash",
+						"value":"cash",
+						},
+						{"name":"Card Pyment",
+						 "value":"card",
+						 "$$hashKey":"object:75"},
+						 {"name":"Cheque",
+						 "value":"cheq",
+						 "$$hashKey":"object:76"},
+						 {"name":"Online",
+						 "value":"online",
+						 "$$hashKey":"object:77"}],
+						 "cardTypes":["RuPay","VISA","MaeterCard","American Express","Chase","Discover"],"cash":{"amount":"1000"},"card":{"amount":0,"bankName":"","cardNumber":"","expDate":"","cardNetwork":"","cardBank":""},"cheq":{"amount":0,"bankName":"","cheqNo":"","cheqDate":""},"online":{"amount":0,"payMode":"","transactionId":"","remark":""}}}
+
