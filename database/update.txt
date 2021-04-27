@@ -1,0 +1,5 @@
+select * from SERVICE_INFO_TABLE where service_order_number = 'CE/2020-21/513';
+update service_info_table set metadata = 'submitWithOutBill:true' where service_order_number = 'CE/2020-21/513';
+describe service_info_table;
+
+ALTER TABLE service_info_table ADD metadata varchar(100) default ('');
