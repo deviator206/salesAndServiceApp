@@ -102,10 +102,11 @@ public class CreateRepairRequestServiceImpl extends ServiceBase
             customerValidID = Integer.parseInt(customerInfo.getString("id"));
 
             CustomerServiceImpl customerServiceUpdateImpl = new CustomerServiceImpl();
-						customerServiceUpdateImpl.setUserName(customerInfo.getString("name"));
-						customerServiceUpdateImpl.setUserAddress(customerInfo.getString("address"));
+						customerServiceUpdateImpl.setUserName(customerInfo.getString("name").toUpperCase());
+						customerServiceUpdateImpl.setUserAddress(customerInfo.getString("address").toUpperCase());
                         customerServiceUpdateImpl.setUserPhone(customerInfo.getString("phone"));
                         customerServiceUpdateImpl.setUserAlternatePhone(customerInfo.getString("alternateNo"));
+                        customerServiceUpdateImpl.setUserEmail(customerInfo.getString("email"));
 						customerServiceUpdateImpl.setUserID(customerValidID);
                         customerServiceUpdateImpl.executeUpdateCustomer();
                         

@@ -11,16 +11,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.main.impl.*;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.main.impl.CreateRepairRequestServiceImpl;
-import com.main.impl.DeliverRepairRequestStatusImpl;
-import com.main.impl.GetRepairRequestStatusImpl;
-import com.main.impl.UpdateRepairRequestStatusImpl;
 import com.main.models.RepairServiceResponse;
 import com.main.models.SearchRepairServiceResponse;
 import com.main.models.UpdateRepairServiceResponse;
+import com.main.models.AdminUpdateServiceModel;
 
 @Path("/repair/")
 public class RepairService {
@@ -163,6 +161,18 @@ public class RepairService {
 		getRepairRequestStatusImpl.setUpdatedProductList(repairRequest.getJSONArray("updatedProductList"));
 		getRepairRequestStatusImpl.execute();
 		return getRepairRequestStatusImpl.getSearchResult();
+	}
+
+	@Path("admin-update")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public AdminUpdateServiceModel adminUpdate(JSONObject adminRequest) throws JSONException, InternalError, SQLException{
+		AdminUpdateServiceModel adminUpdateServiceModel = new AdminUpdateServiceModel();
+		adminUpdateServiceModel.setOperationType(adminRequest.getString("op"));
+		adminUpdateServiceModel.setDefaultValue(adminRequest.getString("defaultValue"));
+		AdminUpdateServiceImpl adminUpdateService = new AdminUpdateServiceImpl();
+		return adminUpdateService.execute(adminUpdateServiceModel);
 	}
 	
 

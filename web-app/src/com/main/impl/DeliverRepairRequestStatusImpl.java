@@ -73,10 +73,11 @@ public class DeliverRepairRequestStatusImpl extends ServiceBase
         {
             customerId = rs1.getInt(1);
             customerInfo.setId(customerId);
-            customerInfo.setName(rs1.getString(2));
-            customerInfo.setAddress(rs1.getString(3));
-            customerInfo.setPhone(rs1.getString(4));
-            customerInfo.setAlternateNo(rs1.getString(5));
+            customerInfo.setName(rs1.getString("name"));
+            customerInfo.setAddress(rs1.getString("address"));
+            customerInfo.setPhone(rs1.getString("phone"));
+            customerInfo.setAlternateNo(rs1.getString("alternate_number"));
+            customerInfo.setEmail(rs1.getString("email_id"));
         }
 
         return customerInfo;

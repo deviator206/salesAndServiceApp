@@ -3,3 +3,13 @@ update service_info_table set metadata = 'submitWithOutBill:true' where service_
 describe service_info_table;
 
 ALTER TABLE service_info_table ADD metadata varchar(100) default ('');
+
+
+
+
+http://localhost:8080/ccc/rest/repair/admin-update
+
+{
+  "op":"_UPDATE_INVOICE_ID_DEFAULT_VALUE",
+  "defaultValue":"CE/2020-21/"
+}
